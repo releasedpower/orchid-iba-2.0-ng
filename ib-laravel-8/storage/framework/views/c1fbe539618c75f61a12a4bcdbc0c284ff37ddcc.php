@@ -1,0 +1,1 @@
+<p>Your OTP code is: <?php echo e($otp); ?></p><?php /**PATH D:\Backup\Documents\DEV\orchid\ib-laravel-8\resources\views/emails/otp.blade.php ENDPATH**/ ?>
