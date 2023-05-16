@@ -1,0 +1,82 @@
+<div class="content-wrapper">
+    <!-- Container-fluid starts -->
+    <!-- Main content starts -->
+    <div class="container-fluid" style="height: 700px;">
+       <div class="row">
+          <div class="main-header">
+             <h4>Créer un nouveau bénéficiaire</h4>
+             <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                <li class="breadcrumb-item">
+                   <a href="index.html">
+                      <i class="ti-user"></i>
+                   </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">Bénéficiaires</a>
+                </li>
+                <li class="breadcrumb-item"><a href="basic-table.html">Nouveau</a>
+                </li>
+             </ol>
+          </div>
+          <div class="col-xl-12 col-lg-12">
+             <div class="card nouveau-ben">
+                <div class="card-header" style="background-color: #ebeff258;">
+                   <h5 style="float: left;">Veuillez remplir les champs ci-dessous</h5>
+                </div>
+                <form [formGroup]="beneficiaireForm" (ngSubmit)="addBeneficiaire()">
+                   <div class="card-block">
+                      <div class="col-lg-6">
+                         <div class="form-group">
+                            <h6>Prénom<span style="color: red;">*</span></h6>
+                            <input type="text" formControlName="benPrenom" class="form-control" placeholder="Ex: Paul">
+                         </div>
+                         <div class="form-group">
+                            <h6>Nom <span style="color: red;">*</span></h6>
+                            <input type="text" formControlName="benNom" class="form-control" placeholder="Ex: Paul">
+                         </div>
+                         <div class="form-group">
+                            <h6>Adresse du bénéficiaire<span style="color: red;">*</span></h6>
+                            <input type="text" class="form-control" placeholder="Ex: A159">
+                         </div>
+                         <div class="form-group">
+                            <div class="col-md-2"><label for="iconaddon3" class="sr-only">Icon addon</label></div>
+                         </div>
+                      </div>
+                      <div class="col-lg-6">
+                         <div class="form-group">
+                            <h6>Banque du bénéficiaire<span style="color: red;">*</span></h6>
+                            <select formControlName="benBanqueCode" [(ngModel)]="selectedBanque"
+                               (change)="getAgences(selectedBanque)" class="form-control " id="exampleSelect1">
+                               <option *ngFor="let banque of banques" [value]="banque.banqueCode">{{banque.banqueNom}} -
+                                  {{banque.banqueCode}}</option>
+                            </select>
+                         </div>
+                         <div class="form-group">
+                            <h6>Agence du bénéficiaire<span style="color: red;">*</span></h6>
+                            <select formControlName="benAgenceCode" [(ngModel)]="selectedAgence" class="form-control"
+                               id="exampleSelect2">
+                               <option *ngFor="let agence of agences" value="{{agence.agenceCode}}" >{{agence.agenceNom}}
+                                  - {{agence.agenceCode}}</option>
+                            </select>
+                         </div>
+                         <div class="form-group">
+                            <h6>N° Compte <span style="color: red;">*</span></h6>
+                            <input type="text" formControlName="benCompteCode" class="form-control"
+                               placeholder="0000 0000 0000 0000">
+                         </div>
+                         <div class="form-group">
+                            <h6>Clé RIB <span style="color: red;">*</span></h6>
+                            <input type="text" formControlName="benRib" class="form-control" placeholder="00">
+                         </div>
+                      </div>
+                   </div>
+                   <div class="col-lg-12">
+                      <button style="margin-top: 50px;"
+                         class="btn btn-success waves-effect waves-light m-r-30">Valider</button>
+                   </div>
+                </form>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <!-- Main content ends -->

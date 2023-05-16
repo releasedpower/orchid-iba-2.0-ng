@@ -1,0 +1,97 @@
+<section class="login p-fixed d-flex text-center">
+	<!-- Container-fluid starts -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="login-card card-block">
+					<form class="md-float-material ">
+						<h3 class="text-center" style="font-size:0.65cm; color: #3e3e3e;">
+							<strong>
+								<span>
+									<img src="assets/images/orchid.ico" alt="">
+								</span>
+								orchid
+							</strong>
+						</h3>
+						<h3 class="text-center">
+							Connectez-vous pour continuer
+						</h3>
+						<div class="row">
+							<form [formGroup]="loginForm">
+								<div class="col-md-12 form-group">
+									<p class="form-control-label">Identifiant</p>
+									<input type="text" 
+										formControlName="identifiant" 
+										class="form-control" 
+										required="required"
+										[class.is-invalid]="loginForm.get('identifiant')?.invalid"
+										placeholder="Identifiant"/>
+								 </div>
+								<div class="col-md-12 form-group">
+									<p class="form-control-label">Code secret</p>
+									<div class="md-input-wrapper">
+										<div class="input-group">
+											<input type="text" formControlName="mdp" #mdpField
+												[(ngModel)]="mdpValue" class="form-control"
+												placeholder="Code PIN" [readOnly]="false">
+											<div class="input-group-btn">
+												<button type="button"
+													(click)="resetDigit($event)"
+													class="btn btn-danger shadow-none addon-btn waves-effect waves-lightaddon-btn">
+													<i class="ti-arrow-left" style="color: white;"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="button-list-c">
+										<button *ngFor="let digit of digits" type="button"
+											(click)="insertDigit(digit)"
+											class="btn btn-inverse-default">{{digit}}</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 mb-2" style="margin-left: 53px;">
+							  <re-captcha id="recaptcha" (resolved)="resolved($event)" name="recaptcha" required>
+							  </re-captcha>
+							</div>
+						  </div>
+						<div class="row">
+							<div *ngIf="loading" class="col-xs-10 offset-xs-1" style="margin-top: 10px;">
+								<button (click)="onLoginClick()" type="button" disabled
+									class="btn btn-success btn-md btn-block waves-effect text-center m-b-20">Se
+									connecter
+								</button>
+							</div>
+							<div *ngIf="!loading"  class="col-xs-10 offset-xs-1" style="margin-top: 10px;">
+								<button (click)="onLoginClick()" type="button"
+									class="btn btn-success btn-md btn-block waves-effect text-center m-b-20">Se
+									connecter
+								</button>
+							</div>
+						</div>
+						<div *ngIf="isErreurServeur" class="col-sm-12 col-xs-12 text-center">
+							<h6 style="color: red;">Erreur de connexion.</h6>
+						</div>
+						<div *ngIf="isLoginIncorrect" class="col-sm-12 col-xs-12 text-center">
+							<h6 style="color: red;">Identifiant ou code secret incorrect.</h6>
+						</div>
+						<div *ngIf="isTryingToLogWithoutCaptcha" class="col-sm-12 col-xs-12 text-center">
+							<h6 style="color: red;">Veuillez valider le captcha</h6>
+						</div>
+						<!-- </div> -->
+					</form>
+
+					<!-- end of form -->
+				</div>
+				<!-- end of login-card -->
+			</div>
+			<!-- end of col-sm-12 -->
+		</div>
+		<!-- end of row -->
+	</div>
+	<!-- end of container-fluid -->
+</section>

@@ -1,0 +1,98 @@
+<div class="content-wrapper">
+    <!-- Container-fluid starts -->
+    <!-- Main content starts -->
+    <div class="container-fluid" style="height: 700px;">
+       <div class="row">
+          <div class="col-sm-12 p-0">
+             <div class="main-header" style="margin-top: 0px;">
+                <h4>Opposition à un chèque</h4>
+                <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                   <li class="breadcrumb-item"><a href="index.html"><i class="icofont icofont-home"></i></a>
+                   </li>
+                   <li class="breadcrumb-item"><a href="#">Chéquier</a>
+                   </li>
+                   <li class="breadcrumb-item"><a href="form-elements-bootstrap.html">Externe</a>
+                   </li>
+                </ol>
+             </div>
+          </div>
+       </div>
+       <form [formGroup]="oppositionForm">
+       <div class="row">
+          <!-- Textual inputs starts -->
+          <div class="col-lg-6">
+            <div class="card">
+               <div class="card-header" style="background-color: #ebeff258;">
+                  <h5 style="float: left;">Information sur le chèque à opposer</h5>
+               </div>
+               <div class="card-block">
+                  <div class="form-group">
+                     <h6>Choisir le compte correspondant <span style="color: red;">*</span> </h6>
+                     <select class="form-control " id="exampleSelect1">
+                       <option *ngFor="let compte of comptes">{{compte.cpt_vcode}} - {{compte.cpt_vlib}}
+                       </option>
+                     </select>
+                  </div>
+               </div>
+               <div class="card-block">
+                  <div class="form-group">
+                     <h6>Quel type d'opposition faire?<span style="color: red;">*</span></h6>
+                     <select class="form-control" (change)="changeSelectedType()" [(ngModel)]="selectedTypeCheque" [ngModelOptions]="{standalone: true}" >
+                       <option *ngFor="let oppositionTypeCheque of oppositionTypeCheques">{{oppositionTypeCheque.tco_vlibelle}}</option>
+                    </select>
+                  </div>
+            </div>
+            </div>
+         </div>
+          <!-- Form Control starts -->
+          <div class="col-lg-6">
+             <div class="card">
+                <div class="card-header" style="background-color: #ebeff258;">
+                   <h5 style="float: left;">Information sur le chèque à opposer</h5>
+                </div>
+                <div class="card-block" *ngIf="signe">
+                      <div class="form-group">
+                        <h6>Numéro du chèque<span style="color: red;">*</span> </h6>
+                        <input class="form-control" type="text" placeholder="Ex: 0000012">
+                     </div>
+                     <div class="form-group">
+                        <h6>Montant<span style="color: red;">*</span> </h6>
+                        <input class="form-control" type="text" placeholder="Ex: 100 000">
+
+                     </div>
+                     <div class="form-group">
+                        <h6>Choisir le motif <span style="color: red;">*</span> </h6>
+                        <select class="form-control " id="exampleSelect1">
+                           <option>Perte</option>
+                           <option>Vol</option>
+                        </select>
+                     </div>
+                </div>
+
+                <div class="card-block" *ngIf="vierge">
+                  <div class="form-group">
+                    <h6>Chèque à partir du numéro:<span style="color: red;">*</span> </h6>
+                    <input class="form-control" type="text" placeholder="Ex: 000012">
+                 </div>
+                 <div class="form-group">
+                  <h6>Jusqu'au numéro:<span style="color: red;">*</span> </h6>
+                  <input class="form-control" type="text" placeholder="Ex: 000013">
+               </div>
+               <div class="form-group">
+                  <h6>Choisir le motif <span style="color: red;">*</span> </h6>
+                  <select class="form-control " id="exampleSelect1">
+                    <option>Perte</option>
+                    <option>Vol</option>
+                  </select>
+               </div>
+            </div>
+             </div>
+            <button type="submit" class="btn btn-success waves-effect waves-light m-r-30">Valider</button>
+
+          </div>
+          
+       </div>
+       </form>
+    </div>
+ </div>
+ <!-- Main content ends -->

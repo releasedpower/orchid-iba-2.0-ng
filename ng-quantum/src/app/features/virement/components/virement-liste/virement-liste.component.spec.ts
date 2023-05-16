@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { VirementListeComponent } from './virement-liste.component';
+
+describe('VirementListeComponent', () => {
+  let component: VirementListeComponent;
+  let fixture: ComponentFixture<VirementListeComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ VirementListeComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(VirementListeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

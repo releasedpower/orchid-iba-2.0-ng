@@ -1,0 +1,97 @@
+<div class="content-wrapper">
+    <!-- Container-fluid starts -->
+    <!-- Main content starts -->
+    <div class="container-fluid" style="height: 700px;">
+       <div class="row">
+          <div class="main-header">
+             <h4>Oppositions effectuées</h4>
+             <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                <li class="breadcrumb-item">
+                   <a href="index.html">
+                      <i class="ti-user"></i>
+                   </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">Opposition</a>
+                </li>
+                <li class="breadcrumb-item"><a href="basic-table.html">Liste des oppositions</a>
+                </li>
+             </ol>
+          </div>
+          <div class="col-xl-12 col-lg-12">
+             <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-block">
+                   <div class="row">
+                      <div class="col-sm-12 table-responsive"> 
+                         <div class="row">
+                            <div class="col-lg-12">
+                              <ul class="nav nav-tabs tabs" role="tablist">
+                                 <li class="nav-item" style="width:150px">
+                                    <a class="nav-link custom-nav-link active" data-toggle="tab" href="#tous" role="tab"
+                                       aria-expanded="true">
+                                       <h6 class="h6-c">
+                                         <i class="icofont icofont-navigation-menu"></i> 
+                                            Tous
+                                         </h6>
+                                      </a>
+                                 </li>
+                                 <li class="nav-item" style="width:150px">
+                                    <a class="nav-link custom-nav-link" data-toggle="tab" href="#valide" role="tab"
+                                       aria-expanded="false">
+                                       <h6 class="h6-c">
+                                         <i class="icofont icofont-check-alt green"></i> 
+                                         Validés
+                                      </h6>
+                                      </a>
+                                 </li>
+                                 <li class="nav-item" style="width:150px">
+                                    <a class="nav-link custom-nav-link" data-toggle="tab" href="#nonvalide" role="tab"
+                                       aria-expanded="false">
+                                       <h6 class="h6-c">
+                                         <i class="icofont icofont-close-circled red"></i> 
+                                         Non validés
+                                      </h6>
+                                      </a>
+                                 </li>
+                              </ul>
+                                  <div class="tab-pane" id="nonvalide" role="tabpanel" aria-expanded="false">
+                                     <table class="table">
+                                        <thead>
+                                           <tr>
+                                              <th>Date de demande</th>
+                                              <th>Numéro chèque de:</th>
+                                              <th>à:</th>
+                                              <th>Code agence</th>
+                                              <th>Numéro de compte</th>
+                                              <th>RIB</th>
+                                              <th>Motif</th>
+                                              <th>Statut</th>
+                                              <th style="text-align: center;">Action</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody >
+                                           <tr *ngFor="let opposition of oppositions">
+                                                <td>{{opposition.opp_ddate}}</td>
+                                                <td>{{opposition.opp_inum_deb}}</td>
+                                                <td>{{opposition.opp_inum_fin}}</td>
+                                                <td>{{opposition.opp_vcode_agence}}</td>
+                                                <td>{{opposition.opp_vcode_compte}}</td>
+                                                <td>{{opposition.opp_vrib}}</td>
+                                                <td>{{opposition.opp_vmotif}}</td>
+                                                <td>{{opposition.opp_ivalid}}</td>
+                                           </tr>
+                                        </tbody>
+                                     </table>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ <!-- Main content ends -->
