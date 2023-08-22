@@ -1,0 +1,38 @@
+.solde-card {
+    background-color: #fff;
+    color: #777;
+    padding: 20px; 
+    height:150px;
+    position:relative;
+}
+.download-rib {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    color: #777;
+    text-decoration: none;
+  }
+  
+  .download-rib:hover {
+    color: #000000;
+  }
+  .main-header {
+    padding: 20px 0 20px 20px; 
+    color:#484848;}
+    .main-header h3 {
+      display: inline-block;
+      margin-bottom: 0;
+      font-weight: 500; }
+    .main-header .breadcrumb-title {
+      margin-top: 10px;
+      margin-bottom: 0; }
+      .main-header .breadcrumb-title a {
+        font-size: 16px;
+        color: #1b8bf9; }
+      .main-header .breadcrumb-title .breadcrumb-item:last-child a {
+        color: #7e7e7e; }
+  
+  
+  
+  
+  

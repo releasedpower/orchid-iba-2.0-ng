@@ -1,0 +1,56 @@
+<div class="wrapper">
+    <!-- Navbar-->
+    <div class="content-wrapper">
+       <!-- Container-fluid starts -->
+       <!-- Main content starts -->
+       <div class="container-fluid">
+          <div class="row">
+             <div class="main-header">
+                <h3>Mes bénéficiaires</h3>
+             </div>
+          </div>
+          <div class="row col-xl-4 col-md-12 col-sm-12" style="margin-bottom: 20px;">
+            <select class="form-control select-cpt" id="exampleSelect1">
+               <option>DAV Riana Rahajary</option>
+               <option>EPR Riana Rahajary</option>
+           </select>
+          </div>
+          <div class="row">
+             <div class="col-xl-10 col-lg-12">
+                <div class="card">
+                   <div class="card-block">
+                      <div class="table-responsive">
+                         <table class="table table-hover">
+                            <thead>
+                               <tr class="text-uppercase">
+                                  <th>N°</th>
+                                  <th>Date de création</th>
+                                  <th>Nom</th>
+                                  <th>Prénom</th>
+                                  <th>RIB</th>
+                                  <th>Statut</th>
+                                  <th>Action</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                               <tr *ngFor="let beneficiaire of beneficiaires">
+                                  <td>{{beneficiaire.ben_iid}}</td>
+                                  <td>{{beneficiaire.created_at}}</td>
+                                  <td>{{beneficiaire.ben_vnom}}</td>
+                                  <td>{{beneficiaire.ben_vprenom}}</td>
+                                  <td>{{beneficiaire.banque_vcode}} {{beneficiaire.ben_vnumcpt}} {{beneficiaire.ben_vclerib}}</td>
+                                  <td>{{beneficiaire.ben_vstatus}}</td>
+                                  <td><button type="submit" class="btn btn-danger">Supprimer</button></td>
+                               </tr>
+                            </tbody>
+                         </table>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <!-- 2-1 block end -->
+       </div>
+       <!-- Main content ends -->
+    </div>
+ </div>

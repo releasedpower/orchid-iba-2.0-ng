@@ -1,0 +1,62 @@
+<div class="wrapper">
+    <div class="content-wrapper">
+        <!-- Container-fluid starts -->
+        <!-- Main content starts -->
+        <div class="container-fluid" style="height: 700px;">
+            <div class="row">
+                <div class="main-header">
+                   <h3>Virement</h3>
+                </div>
+             </div>
+              <!-- Form Control starts -->
+              <div class="row">
+                <div class="col-lg-11">
+                   <div class="card">
+                    <div class="card-header" style="background-color: #ebeff258;">
+                        <h5>Vérification des informations entrés</h5>
+                     </div>
+                      <div class="card-block">
+                         <div class="form-group row">
+                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Compte à débiter :</label></div>
+                            <div class="col-md-5">    
+                                {{formData.sender_banque_vcode}} {{formData.sender_branche_iid}} {{formData.sender_vnumcpt}} {{formData.sender_vclerib}}
+                            </div>
+                         </div>
+                         <div class="form-group row">
+                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Compte à créditer :</label></div>
+                            <div class="col-md-5">    
+                                {{formData.receiver_banque_vcode}} {{formData.receiver_branche_iid}} {{formData.receiver_vnumcpt}} {{formData.receiver_vclerib}}
+                            </div>
+                         </div>
+                         <div class="form-group row">
+                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Montant<span style="color: red;">*</span> :</label></div>
+                            <div class="col-md-3">      
+                                {{formData.trans_vmontant}} Ar           
+                            </div>
+                         </div>
+                         <div class="form-group row">
+                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Description<span style="color: red;">*</span> :</label></div>
+                            <div class="col-md-6">{{formData.trans_vdescript}} </div>
+                         </div>
+                         <div class="form-group row">
+                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date d'execution<span style="color: red;">*</span> :</label></div>
+                            <div class="col-md-6">{{formData.trans_ddate}}</div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+              <div class="row">
+                <div class="col-lg-11">
+                 <div class="form-group row justify-content-end">
+                   <div class="col-md-6">
+                     <button (click)="onSubmit()" type="submit" style="margin-right: 10px;" class="btn btn-success">Effectuer le virement</button>
+                     <button (click)="onCancel()" type="submit" class="btn btn-inverse-default">Annuler</button>
+                   </div>
+                </div>
+              </div>
+             </div>
+           </div>
+        </div>
+     </div>
+     <!-- Main content ends -->

@@ -1,0 +1,102 @@
+    <div class="wrapper">
+       <!-- Navbar-->
+       <div class="content-wrapper">
+          <!-- Container-fluid starts -->
+          <!-- Main content starts -->
+          <div class="container-fluid">
+             <div class="row">
+                <div class="main-header">
+                   <h3>Tableau de bord</h3>
+                </div>
+             </div>
+             <!-- 4-blocks row start -->
+             <div class="row dashboard-header">
+               <div *ngFor="let compte of comptes" class="col-lg-3 col-md-6">
+                  <div class="card solde-card">
+                    <span><small>{{compte.cpt_vlibelle}}</small></span>
+
+                    <h2 class="dashboard-total-products">{{transform(compte.cpt_fsolde)}} <span><small>Ar</small></span></h2>
+                    <ng-container [ngSwitch]="compte.cpt_vtype">
+                      <span *ngSwitchCase="1" class="label label-warning">DAV</span>
+                      <span *ngSwitchCase="2" class="label label-primary">EPR</span>
+                    </ng-container>
+                    <div class="side-box">
+                      <i [ngClass]="{'ti-wallet': compte.cpt_vtype === 1, 'ti-wallet text-primary-color': compte.cpt_vtype === 2}" [class.text-warning-color]="compte.cpt_vtype === 1"></i>
+                    </div>
+                    <a href="#" class="download-rib">
+                      <small>RIB</small>
+                      <span><i class="ti-download"></i></span>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                   <div class="card solde-card">
+                      <span>Revenus du mois</span>
+                      <h2 class="dashboard-total-products">0 <span><small>Ar</small></span></h2>
+                      <span class="label label-success">Détails</span>
+                      <div class="side-box">
+                         <i class="ti-stats-up text-success-color"></i>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                   <div class="card solde-card">
+                      <span>Dépenses du mois</span>
+                      <h2 class="dashboard-total-products">0 <span><small>Ar</small></span></h2>
+                      <span class="label label-danger">Détails</span>
+                      <div class="side-box">
+                         <i class="ti-stats-down text-danger-color"></i>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <!-- 4-blocks row end -->
+             <!-- 2-1 block start -->
+             <div class="row">
+                <div class="main-header">
+                   <h5>Dernières transactions</h5>
+                </div>
+             </div>
+             <div class="row col-xl-5 col-md-12 col-sm-12" style="margin-bottom: 20px;">
+               <select class="form-control select-cpt" id="exampleSelect1">
+                  <option>DAV Riana Rahajary</option>
+                  <option>EPR Riana Rahajary</option>
+              </select>
+             </div>
+             <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                   <div class="card">
+                      <div class="card-block">
+                         <div class="table-responsive">
+                            <table class="table table-hover">
+                               <thead>
+                                  <tr class="text-uppercase">
+                                     <th>N°</th>
+                                     <th>Date</th>
+                                     <th>Type</th>
+                                     <th>Montant</th>
+                                     <th>Description</th>
+                                     <th>Status</th>
+                                  </tr>
+                               </thead>
+                               <tbody>
+                                  <tr *ngFor="let trans of transRecentes">
+                                     <td>{{trans.trans_vnum}}</td>
+                                     <td>{{trans.trans_ddate}}</td>
+                                     <td>{{trans.typetrans_vlibelle}}</td>
+                                     <td>{{transform(trans.trans_vmontant)}} Ar</td>
+                                     <td>{{trans.trans_vdescript}}</td>
+                                     <td style="color: green;">{{trans.trans_vstatus}}</td>
+                                  </tr>
+                               </tbody>
+                            </table>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <!-- 2-1 block end -->
+          </div>
+          <!-- Main content ends -->
+       </div>
+    </div>

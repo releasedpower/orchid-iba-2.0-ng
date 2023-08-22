@@ -1,0 +1,64 @@
+       <!-- Side-Nav-->
+       <aside class="main-sidebar hidden-print ">
+          <section class="sidebar" id="sidebar-scroll">
+             <!-- Sidebar Menu-->
+             <ul class="sidebar-menu">
+                 <!-- <li class="active treeview"> -->
+                   <li class="treeview"> 
+                     <a routerLink="/dashboard" class="waves-effect waves-dark sidebar-link">
+                         <i class="icon-speedometer sidebar-icon"></i>
+                         <span>Tableau de bord</span>
+                     </a>                
+                    </li>
+                 <li class="treeview">
+                   <a routerLink="/virement" class="waves-effect waves-dark sidebar-link" href="virement.html" >
+                      <i class="ti-exchange-vertical sidebar-icon"></i>
+                         <span>Virement</span>
+                   </a>
+                 </li>
+                 <li class="treeview">
+                  <a href="#" class="waves-effect waves-dark sidebar-link">
+                    <i class="ti-layout-cta-right sidebar-icon"></i>
+                       <span>Commande chéquier</span>
+                    <i class="icon-arrow-down"></i>
+                 </a>
+                  <ul class="treeview-menu">
+                    <li><a class="waves-effect waves-dark sub-link" routerLink="/chequier-commande"><i class="icon-arrow-right"></i>Nouvelle commande</a></li>   
+                    <li><a class="waves-effect waves-dark sub-link" routerLink="/chequier-historique"><i class="icon-arrow-right"></i>Commande effectuées</a></li>
+                  </ul>
+                 </li>
+
+                 <li class="treeview">
+                   <a href="#" class="waves-effect waves-dark sidebar-link">
+                      <i class="ti-na sidebar-icon"></i>
+                         <span>Opposition chèque</span>
+                      <i class="icon-arrow-down"></i>
+                    </a>
+                         <ul class="treeview-menu">
+                          <li><a class="waves-effect waves-dark sub-link" routerLink="/chequier-opposition"><i class="icon-arrow-right"></i>Nouvelle opposition</a></li>   
+                          <li><a class="waves-effect waves-dark sub-link" routerLink="/chequier-opposition-historique"><i class="icon-arrow-right"></i>Opposition effectuées</a></li>
+                        </ul>
+                 </li>
+                 
+                 <li class="treeview">
+                  <a href="#" class="waves-effect waves-dark sidebar-link">
+                     <i class="icon-briefcase sidebar-icon"></i>
+                        <span>Bénéficiaires</span>
+                     <i class="icon-arrow-down"></i>
+                  </a>
+                    <ul class="treeview-menu">
+                     <li><a class="waves-effect waves-dark sub-link" routerLink="/beneficiaire"><i class="icon-arrow-right"></i>Nouveau bénéficiaire</a></li>   
+                     <li><a class="waves-effect waves-dark sub-link" routerLink="/beneficiaires"><i class="icon-arrow-right"></i> Mes bénéficiaires</a></li>
+                    </ul>
+                </li>
+
+                 <li class="treeview">
+                   <a routerLink="/historiques" class="waves-effect waves-dark sidebar-link" href="#!">
+                      <i class="ti-book sidebar-icon"></i>
+                         <span>Mes transactions</span>
+                   </a>
+                 </li>
+             </ul>
+          </section>
+       </aside>
+       <!-- Sidebar chat end-->

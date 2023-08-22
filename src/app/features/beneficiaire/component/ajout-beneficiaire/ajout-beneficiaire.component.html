@@ -1,0 +1,83 @@
+<div class="wrapper">
+    <div class="content-wrapper">
+        <!-- Container-fluid starts -->
+        <!-- Main content starts -->
+        <div class="container-fluid" style="height: 700px;">
+            <div class="row">
+                <div class="main-header">
+                   <h3>Bénéficiaire</h3>
+                </div>
+             </div>
+             <form [formGroup]="beneficiaireForm">
+              <!-- Form Control starts -->
+              <div class="row">
+                <div class="col-lg-11">
+                   <div class="card">
+                     <div class="card-header" style="background-color: #ebeff258;">
+                        <h5>Ajouter un bénéficiaire</h5>
+                     </div>
+                      <div class="card-block">
+                         <div class="form-group row">
+                            <div class="col-md-3"><label for="InputNormal" class="form-control-label">Nom :</label></div>
+                            <div class="col-md-5">                        
+                               <input type="text" formControlName="ben_vnom" placeholder="Nom du bénéficiaire" class="form-control form-control-sm">
+                            </div>
+                         </div>
+                         <div class="form-group row">
+                           <div class="col-md-3"><label for="InputNormal" class="form-control-label">Prénom :</label></div>
+                           <div class="col-md-5">                        
+                              <input type="text" formControlName="ben_vprenom" placeholder="Prénom du bénéficiaire" class="form-control form-control-sm">
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <div class="col-md-3"><label for="InputNormal" class="form-control-label">Banque :</label></div>
+                           <div class="col-md-5">                        
+                              <select class="form-control form-control-sm" formControlName="banque_vcode" (change)="onBanqueChange()">
+                                 <option value="">Séléctionner la banque du bénéficiaire</option>
+                                 <option *ngFor="let banque of banques" [value]="banque.banque_vcode">{{banque.banque_vcode}} - {{banque.banque_vnom}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <div class="col-md-3"><label for="InputNormal" class="form-control-label">Agence :</label></div>
+                           <div class="col-md-5">                        
+                              <select class="form-control form-control-sm" formControlName="branche_iid">
+                                 <option value="">Séléctionner l'agence du bénéficiaire</option>
+                                 <option [value]="branche.branche_iid" *ngFor="let branche of branches" >{{branche.branche_vcode}} - {{branche.branche_vnom}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <div class="col-md-3"><label for="InputNormal" class="form-control-label">Numéro du compte :</label></div>
+                           <div class="col-md-5">                        
+                              <input type="text" formControlName="ben_vnumcpt" class="form-control form-control-sm" placeholder="0000000000"/>
+                              <p *ngIf="beneficiaireForm.get('ben_vnumcpt')?.invalid && beneficiaireForm.get('ben_vnumcpt')?.touched" style="color: red;">
+                                 <small>Numéro de compte invalide.</small>
+                               </p>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <div class="col-md-3"><label for="InputNormal" class="form-control-label">Clé RIB :</label></div>
+                           <div class="col-md-5">                        
+                              <input type="text" formControlName="ben_vclerib" class="form-control form-control-sm" placeholder="00"/>
+                           </div>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+              <div class="row">
+                <div class="col-lg-11">
+                 <div class="form-group row justify-content-end">
+                   <div class="col-md-6">
+                     <button type="submit" (click)="insertBeneficiaire()" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
+                     <button type="submit" class="btn btn-inverse-default">Annuler</button>
+                   </div>
+                </div>
+              </div>
+             </div>
+             </form>
+           </div>
+        </div>
+     </div>
+     <!-- Main content ends -->

@@ -1,0 +1,6 @@
+.virement-arrow {
+    font-size: 2rem; /* Adjust the font size to make the icon bigger */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
