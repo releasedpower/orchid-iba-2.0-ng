@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { CompteService } from 'src/app/shared/services/compte/compte.service';
-import { TransactionService } from 'src/app/shared/services/transaction/transaction.service';
 import { Compte } from 'src/app/shared/interfaces/compte';
 import { Subscription } from 'rxjs';
+import { TransactionService } from 'src/app/features/transactions/services/transaction.service';
 
 @Component({
   selector: 'app-dashboard',

@@ -7,10 +7,10 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class BeneficiaireService {
+export class OppositionService {
 
-  constructor(private httpClient : HttpClient, private cookieService:CookieService) { }
-  insertBeneficiaire(data:any):Observable<any>{
+  constructor(private cookieService:CookieService, private httpClient: HttpClient) { }
+  insertOppositionSigned(data:any):Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -18,9 +18,9 @@ export class BeneficiaireService {
         'clt_vcode' : this.cookieService.get('clt_vcode')
       })
     };
-    return this.httpClient.post(`${environment.endpoint}/beneficiaire`,data,httpOptions);
+    return this.httpClient.post(`${environment.endpoint}/opposition-chequier/signed`,data,httpOptions);
   }
-  getBeneficiaires(clt_vcode:string):Observable<any>{
+  insertOppositionUnsigned(data:any):Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -28,9 +28,9 @@ export class BeneficiaireService {
         'clt_vcode' : this.cookieService.get('clt_vcode')
       })
     };
-    return this.httpClient.get(`${environment.endpoint}/beneficiaires/${clt_vcode}`,httpOptions);
+    return this.httpClient.post(`${environment.endpoint}/opposition-chequier/unsigned`,data,httpOptions);
   }
-  getBeneficiaireById(ben_iid:string):Observable<any>{
+  getOppositionsChequier(cpt_iid:any):Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -38,9 +38,9 @@ export class BeneficiaireService {
         'clt_vcode' : this.cookieService.get('clt_vcode')
       })
     };
-    return this.httpClient.get(`${environment.endpoint}/beneficiaire/${ben_iid}`,httpOptions);
+    return this.httpClient.get(`${environment.endpoint}/oppositions-chequier/${cpt_iid}`,httpOptions);
   }
-  deleteBeneficaire(ben_iid:string):Observable<any>{
+  deleteOppositionChequier(oppchq_iid:any):Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -48,6 +48,6 @@ export class BeneficiaireService {
         'clt_vcode' : this.cookieService.get('clt_vcode')
       })
     };
-    return this.httpClient.delete(`${environment.endpoint}/beneficiaire/delete/${ben_iid}`,httpOptions);
+    return this.httpClient.delete(`${environment.endpoint}/opposition-chequier/delete/${oppchq_iid}`,httpOptions);
   }
 }

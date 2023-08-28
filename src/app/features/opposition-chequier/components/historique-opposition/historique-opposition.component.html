@@ -11,37 +11,51 @@
           </div>
           <div class="row col-xl-4 col-md-12 col-sm-12" style="margin-bottom: 20px;">
             <select class="form-control select-cpt" id="exampleSelect1">
-               <option>DAV Riana Rahajary</option>
-               <option>EPR Riana Rahajary</option>
+               <option>DAV</option>
            </select>
           </div>
           <div class="row">
-             <div class="col-xl-10 col-lg-12">
+             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                    <div class="card-block">
                       <div class="table-responsive">
                          <table class="table table-hover">
                             <thead>
                                <tr class="text-uppercase">
-                                  <th>N°</th>
+                                  <th>N° Opposition</th>
                                   <th>Date</th>
                                   <th>Type de chéquier</th>
-                                  <th>Nombre de page</th>
-                                  <th>Nombre de carnet</th>
-                                  <th>Agence de récupération</th>
+                                  <th>N° opposition début</th>
+                                  <th>N° opposition fin</th>
+                                  <th>Montant</th>
+                                  <th>Motif</th>
                                   <th>Statut</th>
+                                  <th>Action</th>
                                </tr>
                             </thead>
                             <tbody>
-                               <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td style="color: green;"></td>
+                               <tr *ngFor="let opp of oppositionsChequier;let i = index">
+                                  <td>{{opp.oppchq_iid}}</td>
+                                  <td>{{opp.oppchq_ddate | dateToFrench }}</td>
+                                  <td>{{opp.oppchq_vtype ==='Unsigned' ? 'Vierge' : 'Signé'}}</td>
+                                  <td>{{opp.oppchq_inumdeb}}</td>
+                                  <td>{{opp.oppchq_inumfin}}</td>
+                                  <td>{{opp.oppchq_vmontant}}</td>
+                                  <td>{{opp.oppchq_vmotif}}</td>
+                                  <td>{{opp.oppchq_vstatus}}</td>
+                                  <td *ngIf="selectedRowIndex !== i">
+                                    <button (click)="toggleConfirm(i)" class="btn btn-danger">
+                                       <span class="ti-close"></span>
+                                    </button>
+                                 </td>
+                                 <td *ngIf="selectedRowIndex === i">
+                                    <button (click)="cancel()" class="btn btn-primary">
+                                       Annuler
+                                    </button><br/><br/>
+                                    <button (click)="confirmDelete(opp.oppchq_iid )" class="btn btn-danger">
+                                       Supprimer
+                                    </button>
+                                 </td>
                                </tr>
                             </tbody>
                          </table>

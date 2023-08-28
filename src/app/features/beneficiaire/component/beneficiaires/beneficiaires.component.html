@@ -16,7 +16,7 @@
            </select>
           </div>
           <div class="row">
-             <div class="col-xl-10 col-lg-12">
+             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                    <div class="card-block">
                       <div class="table-responsive">
@@ -27,20 +27,32 @@
                                   <th>Date de création</th>
                                   <th>Nom</th>
                                   <th>Prénom</th>
-                                  <th>RIB</th>
+                                  <th>N compte</th>
                                   <th>Statut</th>
                                   <th>Action</th>
                                </tr>
                             </thead>
                             <tbody>
-                               <tr *ngFor="let beneficiaire of beneficiaires">
+                               <tr *ngFor="let beneficiaire of beneficiaires; let i = index;">
                                   <td>{{beneficiaire.ben_iid}}</td>
-                                  <td>{{beneficiaire.created_at}}</td>
+                                  <td>{{beneficiaire.created_at | dateToFrench}}</td>
                                   <td>{{beneficiaire.ben_vnom}}</td>
                                   <td>{{beneficiaire.ben_vprenom}}</td>
-                                  <td>{{beneficiaire.banque_vcode}} {{beneficiaire.ben_vnumcpt}} {{beneficiaire.ben_vclerib}}</td>
+                                  <td>{{beneficiaire.banque_vcode}} - {{beneficiaire.branche_vcode}} - {{beneficiaire.ben_vnumcpt}} - {{beneficiaire.ben_vclerib}}</td>
                                   <td>{{beneficiaire.ben_vstatus}}</td>
-                                  <td><button type="submit" class="btn btn-danger">Supprimer</button></td>
+                                  <td *ngIf="selectedRowIndex !== i">
+                                    <button (click)="toggleConfirm(i)" class="btn btn-danger">
+                                       <span class="ti-close"></span>
+                                    </button>
+                                 </td>
+                                 <td *ngIf="selectedRowIndex === i">
+                                    <button (click)="cancel()" class="btn btn-primary">
+                                       Annuler
+                                    </button><br/><br/>
+                                    <button (click)="confirmDelete(beneficiaire.ben_iid)" class="btn btn-danger">
+                                       Supprimer
+                                    </button>
+                                 </td>
                                </tr>
                             </tbody>
                          </table>

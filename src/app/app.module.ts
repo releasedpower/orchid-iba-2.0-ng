@@ -19,6 +19,7 @@ import { CookieModule } from 'ngx-cookie';
 import { AjoutBeneficiaireComponent } from './features/beneficiaire/component/ajout-beneficiaire/ajout-beneficiaire.component';
 import { BeneficiaireModule } from './features/beneficiaire/beneficiaire.module';
 import { VirementModule } from './features/virement/virement.module';
+import { TransactionsModule } from './features/transactions/transactions.module';
 
 @NgModule({
   declarations: [
@@ -27,8 +28,6 @@ import { VirementModule } from './features/virement/virement.module';
     HeaderComponent,
     LoginComponent,
     SettingsComponent,
-    HistoriqueOppositionComponent,
-    AjoutBeneficiaireComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +42,8 @@ import { VirementModule } from './features/virement/virement.module';
     SettingsModule,
     ChequierModule,
     OppositionChequierModule,
-    BeneficiaireModule
+    BeneficiaireModule,
+    TransactionsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

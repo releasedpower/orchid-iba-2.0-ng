@@ -8,7 +8,7 @@
                   <h3>Commande de chéquier</h3>
                </div>
             </div>
-            <form>
+            <form [formGroup]="demandeChequierForm">
              <!-- Form Control starts -->
              <div class="row">
                <div class="col-lg-11">
@@ -19,9 +19,10 @@
                      <div class="card-block">
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Choisir le compte correspondant :</label></div>
-                           <div class="col-md-3">                        
-                              <select class="form-control">
-                                 <option>DAV Riana</option>
+                           <div class="col-md-4">                        
+                              <select formControlName="demchq_cpt_iid" class="form-control form-control-sm">
+                                 <option value="">Séléctionner le compte à débiter</option>
+                                 <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vlibelle}}</option>
                               </select>
                            </div>
                         </div>
@@ -36,32 +37,35 @@
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Type de chéquier :</label></div>
                            <div class="col-md-3">                        
-                              <select class="form-control form-control-sm">
-                                 <option>Ordinaire</option>
+                              <select formControlName="demchq_itypechq" class="form-control form-control-sm">
+                                 <option value="">Séléctionner le type de chéquier</option>
+                                 <option [value]="typeChequier.typechq_iid" *ngFor="let typeChequier of typesChequier">{{typeChequier.typechq_vlibelle}}</option>
                               </select>
                            </div>
                         </div>
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Type de carnet :</label></div>
                            <div class="col-md-3">                        
-                              <select class="form-control form-control-sm">
-                                 <option>50 pages</option>
+                              <select formControlName="demchq_vnbpage" class="form-control form-control-sm">
+                                 <option [value]="10">10 pages</option>
+                                 <option [value]="25">25 pages</option>
+                                 <option [value]="50">50 pages</option>
+                                 <option [value]="100">100 pages</option>
                               </select>
                            </div>
                         </div>
                         <div class="form-group row">
-                           <div class="col-md-3"><label for="InputNormal" class="form-control-label">Moyen de livraison<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-3"><label class="form-control-label">Nombre de carnet à commander:</label></div>
                            <div class="col-md-3">                        
-                              <select class="form-control form-control-sm">
-                                 <option>Récuperation à l'agence</option>
-                              </select>
+                              <input formControlName="demchq_inbcarnet" type="number" class="form-control form-control-sm">
                            </div>
                         </div>
                         <div class="form-group row">
                            <div class="col-md-3"><label for="InputNormal" class="form-control-label">Agence de récupération<span style="color: red;">*</span> :</label></div>
-                           <div class="col-md-3">                        
-                              <select class="form-control form-control-sm">
-                                 <option>Agence 10001</option>
+                           <div class="col-md-5">                        
+                              <select formControlName="demchq_branche_recupiid" class="form-control form-control-sm">
+                                 <option value="">Séléctionner l'agence de récupération</option>
+                                 <option [value]="branche.branche_iid" *ngFor="let branche of branches">{{branche.branche_vnom}}</option>
                               </select>
                            </div>
                         </div>
@@ -74,7 +78,7 @@
                <div class="col-lg-11">
                 <div class="form-group row justify-content-end">
                   <div class="col-md-6">
-                    <button type="submit" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
+                    <button type="submit" (click)="addDemandeChequier()" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
                     <button type="submit" class="btn btn-inverse-default">Annuler</button>
                   </div>
                </div>

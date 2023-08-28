@@ -8,7 +8,7 @@
                   <h3>Opposition à un chèque</h3>
                </div>
             </div>
-            <form>
+            <form [formGroup]="oppositionChequierForm">
              <!-- Form Control starts -->
              <div class="row">
                <div class="col-lg-11">
@@ -19,9 +19,10 @@
                      <div class="card-block">
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Compte correspondant :</label></div>
-                           <div class="col-md-3">                        
-                              <select class="form-control">
-                                 <option>DAV Riana</option>
+                           <div class="col-md-5">                        
+                              <select formControlName="oppchq_cpt_iid" class="form-control form-control-sm">
+                                 <option value="">Séléctionner le compte correspondant</option>
+                                 <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vlibelle}}</option>
                               </select>
                            </div>
                         </div>
@@ -34,40 +35,50 @@
                   <div class="card">
                      <div class="card-block">
                         <div class="form-group row">
-                           <div class="col-md-3"><label class="form-control-label">Opposition à :</label></div>
+                           <div class="col-md-3"><label class="form-control-label">Type d'opposition :</label></div>
                            <div class="col-md-3">                        
-                              <select class="form-control form-control-sm">
-                                 <option>Un chèque</option>
-                                 <option>Un chèquier</option>
+                              <select formControlName="oppchq_vtype" [(ngModel)]="selectedTypeCheque" class="form-control form-control-sm" (change)="onChangeTypeCheque()">
+                                 <option value="Signed">Chèque signé</option>
+                                 <option value="Unsigned">Chèque vierge</option>
                               </select>
                            </div>
                         </div>
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Numéro du chèque :</label></div>
-                           <div class="col-md-3">                        
-                              <input type="text" class="form-control form-control-sm" placeholder="00000"/>
-                           </div>
+                           <div class="row">
+                              <div class="col-md-2">                        
+                                 <input formControlName="oppchq_inumdeb" type="text" class="form-control form-control-sm" placeholder="00000"/>
+                              </div>
+                              <div  *ngIf="selectedTypeCheque === 'Unsigned' ">
+                                 <div class="col-md-1">
+                                    <label class="form-control-label">à :</label>
+                                 </div>
+                                 <div class="col-md-2"> <!-- Adjust the column width as needed -->
+                                    <input formControlName="oppchq_inumfin" type="text" class="form-control form-control-sm" placeholder="00000"/>
+                                 </div>
+                              </div>
+                          </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" *ngIf="selectedTypeCheque === 'Signed' ">
                            <div class="col-md-3"><label for="InputNormal" class="form-control-label">Montant<span style="color: red;">*</span> :</label></div>
                            <div class="col-md-3">                        
-                              <input type="text" class="form-control form-control-sm" placeholder="00000"> 
+                              <input formControlName="oppchq_vmontant" type="text" class="form-control form-control-sm" placeholder="00000"> 
                            </div>
                            <div class="col-md-1">Ar</div>
                         </div>
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Motif :</label></div>
                            <div class="col-md-3">                        
-                              <select class="form-control form-control-sm">
-                                 <option>Perte</option>
-                                 <option>Vol</option>
+                              <select formControlName="oppchq_vmotif" class="form-control form-control-sm">
+                                 <option value="Perte">Perte</option>
+                                 <option value="Vol">Vol</option>
                               </select>
                            </div>
                         </div>
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Date de perte :</label></div>
                            <div class="col-md-3">                        
-                              <input type="date" class="form-control form-control-sm"/>
+                              <input formControlName="oppchq_dperte" type="date" class="form-control form-control-sm"/>
                            </div>
                         </div>
                      </div>
@@ -79,7 +90,7 @@
                <div class="col-lg-11">
                 <div class="form-group row justify-content-end">
                   <div class="col-md-6">
-                    <button type="submit" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
+                    <button type="submit" (click)="onClickOpposition()" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
                     <button type="submit" class="btn btn-inverse-default">Annuler</button>
                   </div>
                </div>

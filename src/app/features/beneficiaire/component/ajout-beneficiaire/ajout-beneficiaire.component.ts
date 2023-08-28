@@ -5,6 +5,7 @@ import { BanqueService } from 'src/app/shared/services/banque/banque.service';
 import { BrancheService } from 'src/app/shared/services/banque/branche.service';
 import { BeneficiaireService } from '../../services/beneficiaire.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ajout-beneficiaire',
@@ -16,7 +17,8 @@ export class AjoutBeneficiaireComponent implements OnInit {
   constructor(private banqueService : BanqueService,
     private brancheService : BrancheService,
     private cookieService: CookieService,
-    private beneficiaireService: BeneficiaireService) { }
+    private beneficiaireService: BeneficiaireService,
+    private router: Router) { }
   banques:any = [];
   branches:any = [];
 
@@ -54,6 +56,7 @@ export class AjoutBeneficiaireComponent implements OnInit {
     const subscription = this.beneficiaireService.insertBeneficiaire(this.beneficiaireForm.value).subscribe({
       next: () => {
         console.log("Successfully added.");
+        this.refreshPage();
       },
       error:error => console.log(error)
     });
@@ -64,5 +67,11 @@ export class AjoutBeneficiaireComponent implements OnInit {
     if (selectedBanque) {
       this.getBranches(selectedBanque);
     }
+  }
+  refreshPage() {
+    const currentRoute = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentRoute]);
+    });
   }
 }
