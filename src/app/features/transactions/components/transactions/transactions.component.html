@@ -24,29 +24,18 @@
           <form>
             <div class="row">
               <div class="col-lg-6">
-                 <div class="card">
-                    <div class="card-header" style="background-color: #ebeff258;">
-                        <h6>Recherche entre interval</h6>
-                     </div>
-                    <div class="card-block">
-                       <div class="form-group row">
-                          <div class="col-md-2"><label for="InputNormal" class="form-control-label">Entre:</label></div>
-                          <div class="col-md-5">                        
-                             <input type="date" class="form-control form-control-sm" placeholder="00000">
-                          </div>
-                       </div>
-                       <div class="form-group row">
-                        <div class="col-md-2"><label for="InputNormal" class="form-control-label">Et:</label></div>
-                        <div class="col-md-5">                        
-                           <input type="date" class="form-control form-control-sm" placeholder="00000">
-                        </div>
-                     </div>
-                     <div class="form-group row justify-content-end" style="float:right">
-                        <div class="col-md-6">
-                          <button type="submit" style="margin-right: 10px;" class="btn btn-success">Rechercher</button>
-                        </div>
-                     </div>
-                    </div>
+               <div class="form-group row">
+                  <div class="col-md-1"><label for="InputNormal" class="form-control-label">Entre:</label></div>
+                  <div class="col-md-3">                        
+                     <input type="date" class="form-control form-control-sm" placeholder="00000">
+                  </div>
+                  <div class="col-md-1"><label for="InputNormal" class="form-control-label">Et:</label></div>
+                  <div class="col-md-3">                        
+                     <input type="date" class="form-control form-control-sm" placeholder="00000">
+                  </div>
+                  <div class="col-md-3">
+                  <button type="submit" style="margin-right: 10px;" class="btn btn-success">Rechercher</button>
+                  </div>
                  </div>
 
               </div>
@@ -69,8 +58,10 @@
                                   <th>
                                     <select class="form-control form-control-sm" [(ngModel)]="selectedTypeFilter" (ngModelChange)="filterTypeTransactions()">
                                         <option value="">Type</option>
+                                        <option value="">Tous</option>
                                         <option value="VIR">Virement</option>
                                         <option value="DEP">Dépôt</option>
+                                        <option value="RET">Retrait</option>
                                     </select>
                                   </th>
                                   <th>Montant</th>

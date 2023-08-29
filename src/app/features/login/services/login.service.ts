@@ -18,7 +18,7 @@ export class LoginService {
     ) { }
     
   login(data:any):Observable<any>{
-    return this.httpClient.post(`${environment.endpoint}/login`,data,{withCredentials: true});
+    return this.httpClient.post(`${environment.endpoint}/login`,data, {withCredentials: true});
   }
   checkTokenAndRedirect() {
     const token = this.cookieService.get('token');

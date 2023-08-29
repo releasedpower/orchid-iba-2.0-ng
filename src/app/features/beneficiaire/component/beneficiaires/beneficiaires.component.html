@@ -26,7 +26,6 @@
                                   <th>N°</th>
                                   <th>Date de création</th>
                                   <th>Nom</th>
-                                  <th>Prénom</th>
                                   <th>N compte</th>
                                   <th>Statut</th>
                                   <th>Action</th>
@@ -36,8 +35,7 @@
                                <tr *ngFor="let beneficiaire of beneficiaires; let i = index;">
                                   <td>{{beneficiaire.ben_iid}}</td>
                                   <td>{{beneficiaire.created_at | dateToFrench}}</td>
-                                  <td>{{beneficiaire.ben_vnom}}</td>
-                                  <td>{{beneficiaire.ben_vprenom}}</td>
+                                  <td>{{beneficiaire.ben_vnom}} {{beneficiaire.ben_vprenom}}</td>
                                   <td>{{beneficiaire.banque_vcode}} - {{beneficiaire.branche_vcode}} - {{beneficiaire.ben_vnumcpt}} - {{beneficiaire.ben_vclerib}}</td>
                                   <td>{{beneficiaire.ben_vstatus}}</td>
                                   <td *ngIf="selectedRowIndex !== i">
