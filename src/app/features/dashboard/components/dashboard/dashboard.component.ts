@@ -4,6 +4,7 @@ import { CompteService } from 'src/app/shared/services/compte/compte.service';
 import { Compte } from 'src/app/shared/interfaces/compte';
 import { Subscription } from 'rxjs';
 import { TransactionService } from 'src/app/features/transactions/services/transaction.service';
+import { ClientService } from 'src/app/shared/services/client.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,12 +13,14 @@ import { TransactionService } from 'src/app/features/transactions/services/trans
 })
 export class DashboardComponent implements OnInit {
   private subscriptions:Subscription[] = [];
-  constructor(private compteService: CompteService, private transactionService: TransactionService) { }
+  constructor(private compteService: CompteService, private transactionService: TransactionService,
+    private clientService:ClientService) { }
   comptes:Compte [] = [];
   transRecentes:any[] = [];
+  isEmailWarningVisible = false;
   ngOnInit(): void {
     this.getComptes();
-    this.getTransRecentes();
+    this.checkEmail();
   }
   ngOnDestroy(){
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -26,6 +29,8 @@ export class DashboardComponent implements OnInit {
     const subscription = this.compteService.getComptes().subscribe({
       next:(result)=>{
         this.comptes=result;
+        this.getTransRecentes();
+
       },
       error:(error)=>{
         console.log(error);
@@ -33,8 +38,23 @@ export class DashboardComponent implements OnInit {
     });
     this.subscriptions.push(subscription);
   }
+  checkEmail(){
+    const subscription = this.clientService.getEmail().subscribe({
+      next: (result) => {
+        console.log(result);
+        if(!result.email){
+          this.isEmailWarningVisible = true;
+        }
+        else if(result.email){
+          this.isEmailWarningVisible = false;
+        }
+      },
+      error: (error) =>console.log(error)
+    });
+    this.subscriptions.push(subscription);
+  }
   getTransRecentes(){
-    const subscription = this.transactionService.getTransRecentes('00125100001').subscribe({
+    const subscription = this.transactionService.getTransRecentes((this.comptes[0].cpt_vcode).toString()).subscribe({
       next:(result)=>{
         this.transRecentes=result;
       },

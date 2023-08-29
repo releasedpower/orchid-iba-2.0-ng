@@ -8,7 +8,6 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 import { HeaderComponent } from './shared/components/header/header.component';
 import { LoginComponent } from './features/login/components/login/login.component';
 import { LoginModule } from './features/login/login.module';
-import { SettingsComponent } from './features/settings/components/settings/settings.component';
 import { SettingsModule } from './features/settings/settings.module';
 import { ChequierModule } from './features/chequier/chequier.module';
 import { OppositionChequierModule } from './features/opposition-chequier/opposition-chequier.module';
@@ -25,7 +24,6 @@ import { TransactionsModule } from './features/transactions/transactions.module'
     SidebarComponent,
     HeaderComponent,
     LoginComponent,
-    SettingsComponent,
   ],
   imports: [
     BrowserModule,

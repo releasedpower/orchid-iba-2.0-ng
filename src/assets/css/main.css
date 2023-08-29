@@ -4981,11 +4981,11 @@ input[type="checkbox"].green.ios-switch:checked + div > div {
 .user-block-1 img,
 .user-block-2 img {
   display: inline-block;
-  border: 5px solid rgba(251, 137, 101, 0.43);
+  /* border: 5px solid rgba(251, 137, 101, 0.43); */
   border-radius: 50%; }
 
 .user-block-2 {
-  background-image: url("../images/widget/user-block-2.jpg");
+  /* background-image: url("../images/widget/user-block-2.jpg"); */
   background-size: cover;
   padding: 20px 0;
   color: #fff;

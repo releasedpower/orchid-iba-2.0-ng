@@ -22,7 +22,7 @@
                                 <div class="accordion-panel">
                                     <div class="accordion-heading" role="tab" id="headingOne">
                                         <h3 class="card-title accordion-title">
-                                            <a routerLink="pwd" class="accordion-msg scale_active">
+                                            <a routerLink="../pwd" class="accordion-msg scale_active">
                                                 Changer votre mot de passe
                                             </a>
                                         </h3>
@@ -31,17 +31,8 @@
                                 <div class="accordion-panel">
                                     <div class="accordion-heading" role="tab" id="headingTwo">
                                         <h3 class="card-title accordion-title">
-                                            <a routerLink="email" class="accordion-msg scale_active">
+                                            <a routerLink="../email" class="accordion-msg scale_active">
                                                 Modifier votre adresse e-mail
-                                            </a>
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div class="accordion-panel" *ngIf="noEmail">
-                                    <div class="accordion-heading" role="tab" id="headingTwo">
-                                        <h3 class="card-title accordion-title">
-                                            <a routerLink="add-email" class="accordion-msg scale_active">
-                                                Ajouter une adresse e-mail
                                             </a>
                                         </h3>
                                     </div>
@@ -50,6 +41,28 @@
                         </div>
                     </div>
                 </div>
+                <!-- Multiple Open Accordion ends -->
+                <div class="col-lg-6">
+                    <div class="card">
+                       <div class="card-header">
+                          <h5 class="card-header-text">Modifications</h5>
+                       </div>
+
+                       <div class="card-block">
+                          <form>
+                             <div class="form-group">
+                                <label for="exampleInputPassword1" class="form-control-label">Adresse email actuel</label>
+                                <input type="email" class="form-control" id="exampleInputPassword1" placeholder="Entrer votre adresse email actuel ici">
+                             </div>
+                             <div class="form-group">
+                                <label for="exampleInputPassword1" class="form-control-label">Entrer votre mot de passe</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                             </div>
+                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-30">Submit</button>
+                          </form>
+                       </div>
+                    </div>
+                 </div>
             </div>
         </div>
         <!-- Main content ends -->

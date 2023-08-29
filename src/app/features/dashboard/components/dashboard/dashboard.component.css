@@ -1,0 +1,10 @@
+/* Apply styles directly to the link when hovered */
+.addEmailLink {
+    text-decoration: none;
+    color: black; /* Set the initial text color */
+}
+
+.addEmailLink:hover {
+    color: rgb(215, 78, 78); /* Change text color on hover */
+    background-color: rgb(204, 47, 47); /* Change background color on hover */
+}
