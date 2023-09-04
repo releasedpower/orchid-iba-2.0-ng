@@ -16,7 +16,10 @@ export class AppComponent {
     this.loginService.checkTokenAndRedirect();
   }
   isOnLogin(){
-    return this.router.url==='/login';
+    if (this.router.url==='/login' || this.router.url==='/login-2fa'){
+      return true;
+    }
+    else return false;
   }
 
 }

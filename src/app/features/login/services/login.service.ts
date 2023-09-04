@@ -33,4 +33,7 @@ export class LoginService {
       this.router.navigateByUrl('/login');
     }
   }
+  verifyOtp(data:any){
+    return this.httpClient.post(`${environment.endpoint}/verifyOtp`,data, {withCredentials: true});
+  }
 }

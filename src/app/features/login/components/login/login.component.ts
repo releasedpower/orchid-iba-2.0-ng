@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router} from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import {CookieService} from 'ngx-cookie-service';
-import {filter} from 'rxjs/operators';
 import { TokenService } from '../../services/token.service';
+import { ClientService } from 'src/app/shared/services/client.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,12 @@ export class LoginComponent implements OnInit {
   digits:any;
   mdpValue:any;
   errorMessage:string = '';
-
+  private subscriptions:Subscription[] = [];
   constructor(private router: Router, 
       private loginService: LoginService, 
       private cookieService:CookieService,
-      private tokenService: TokenService
+      private tokenService: TokenService,
+      private clientService:ClientService
     ) {
   }
 
@@ -35,20 +37,39 @@ export class LoginComponent implements OnInit {
     }
     this.digits = this.randomUniqueNum(12, 12);
   }
-
-  onLoginClick() {
+  ngOnDestroy(){
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+  async onLoginClick() {
     if (this.loginForm.value) {
-      this.loginService.login(this.loginForm.value).subscribe({
-        next: (result) => {
-          this.tokenService.storeExpiration(result.expiration);
+      try {
+        const result = await this.loginService.login(this.loginForm.value).toPromise();
+        this.tokenService.storeExpiration(result.expiration);
+        
+        const emailCheckResult = await this.checkEmail();
+        if (emailCheckResult) {
+          this.router.navigateByUrl('login-2fa');
+        } else {
           this.router.navigateByUrl('/dashboard');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  async checkEmail(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const subscription = this.clientService.getEmail().subscribe({
+        next: (result) => {
+          resolve(!!result.email); // Resolve with true if email exists, otherwise resolve with false
         },
         error: (error) => {
           console.log(error);
-          this.errorMessage = error.error.message;
+          reject(error);
         },
       });
-    }
+      this.subscriptions.push(subscription);
+    });
   }
 
   @ViewChild('mdpField') private mdpField:any;

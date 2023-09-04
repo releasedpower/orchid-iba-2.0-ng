@@ -6,7 +6,7 @@
        <div class="container-fluid">
           <div class="row">
              <div class="main-header">
-                <h3>Transactions effectuées</h3>
+                <h3>Virements permanents effectuées</h3>
              </div>
           </div>
 
@@ -42,49 +42,48 @@
                  </div>
               </div>
               </form>
-              <button (click)="generateDynamicPDF()">Convert to PDF</button>
           </div>
 
-
-          <div class="row" >
+          <div class="row">
              <div class="col-xl-12 col-lg-12 col-sm-12"> 
                 <div class="card">
                     <div class="card-header" style="background-color: #ebeff258;">
-                        <h6>Interval {{transactions[0].trans_ddate | dateToFrench }} - {{transactions[transactions.length-1].trans_ddate | dateToFrench}}</h6>
+                        <h6>Interval </h6>
                      </div>
                    <div class="card-block">
                       <div class="table-responsive">
-                         <table class="table table-hover" id="transactionData">
+                         <table class="table table-hover">
                             <thead>
                                <tr>
                                   <th>N°</th>
-                                  <th>Date  <span><i class="ti-arrows-vertical" (click)="toggleReverse()"></i></span></th>
-                                  <th>
-                                    <select class="form-control form-control-sm" [(ngModel)]="selectedTypeFilter" (ngModelChange)="filterTypeTransactions()">
-                                        <option value="">Type</option>
-                                        <option value="">Tous</option>
-                                        <option value="VIR">Virement</option>
-                                        <option value="DEP">Dépôt</option>
-                                        <option value="RET">Retrait</option>
-                                    </select>
-                                  </th>
+                                  <th>Sender</th>
+                                  <th>Receiver</th>
                                   <th>Montant</th>
                                   <th>Description</th>
-                                  <th>Status</th>
+                                  <th>Frequence</th>
+                                  <th>Début</th>
+                                  <th>Fin</th>
+                                  <th>Dernière execution</th>
+                                  <th>Prochaine execution</th>
+                                  <th>Action</th>
                                </tr>
                             </thead>
                             <tbody>
-                               <tr *ngFor="let trans of filteredTransactions | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage}">
-                                  <td>{{trans.trans_vnum}}</td>
-                                  <td>{{trans.trans_ddate | dateToFrench }}</td>
-                                  <td>{{trans.typetrans_vlibelle}}</td>
-                                  <td>{{transform(trans.trans_vmontant)}} Ar</td>
-                                  <td>{{trans.trans_vdescript}}</td>
-                                  <td [style]="trans.trans_vstatus==='Valid'? 'color:green' : 'color:red' ">{{trans.trans_vstatus}}</td>
-                               </tr>
+                                <tr *ngFor="let vp of virementsPermanents">
+                                    <td>{{vp.virper_iid}}</td>
+                                    <td>{{vp.sender_banque_vcode}} {{vp.sender_branche_vcode}} {{vp.sender_vnumcpt}} {{vp.sender_vclerib}}</td>
+                                    <td>{{vp.receiver_banque_vcode}} {{vp.receiver_branche_vcode}} {{vp.receiver_vnumcpt}} {{vp.receiver_vclerib}}</td>
+                                    <td>{{vp.montant}}</td>
+                                    <td>{{vp.virper_vdescript}}</td>
+                                    <td>{{vp.frequency}}</td>
+                                    <td>{{vp.debut | dateToFrench}}</td>
+                                    <td>{{vp.fin | dateToFrench}}</td>
+                                    <td>{{vp.last_execution_date | dateToFrench}} </td>
+                                    <td>{{vp.next_execution_date | dateToFrench}}</td>
+                                    <td></td>
+                                </tr>
                             </tbody>
                          </table>
-                         <pagination-controls class="pagination" [maxSize]="30" style="float:left" (pageChange)="currentPage = $event"></pagination-controls>
                       </div>
                    </div>
                 </div>

@@ -1,0 +1,63 @@
+<section class="login p-fixed d-flex text-center">
+	<!-- Container-fluid starts -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="login-card card-block">
+					<form class="md-float-material ">
+						<h3 class="text-center" style="font-size:0.65cm; color: #3e3e3e;">
+							<strong>
+								<span>
+									<img src="assets/images/orchid.ico" alt="">
+								</span>
+								orchid
+							</strong>
+						</h3>
+						<h3 class="text-center">
+							Authentification à deux facteurs
+						</h3>
+						<div class="row">
+							<form>
+								<div class="col-md-12 form-group">
+									<p class="form-control-label">Code d'authentification</p>
+									<div class="md-input-wrapper">
+										<div class="input-group">
+											<input type="number" [(ngModel)]="twoFaCode" #mdpField
+												[class]="'form-control' " placeholder="Entrer votre code secret"
+												[readOnly]="false">
+											<div class="input-group-btn">
+												<button type="button"
+													class="btn btn-danger shadow-none addon-btn waves-effect waves-lightaddon-btn">
+													<i class="ti-arrow-left" style="color: white;"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row">
+						</div>
+						<div class="row">
+							<div class="col-xs-10 offset-xs-1" style="margin-top: 10px;">
+								<button (click)="onSubmit()" type="button"
+									class="btn btn-success btn-md btn-block waves-effect text-center m-b-20">Se
+									connecter
+								</button>
+							</div>
+						</div>
+						<div class="col-sm-12 col-xs-12 text-center">
+							<h6 style="color: red;"></h6>
+						</div>
+					</form>
+
+					<!-- end of form -->
+				</div>
+				<!-- end of login-card -->
+			</div>
+			<!-- end of col-sm-12 -->
+		</div>
+		<!-- end of row -->
+	</div>
+	<!-- end of container-fluid -->
+</section>

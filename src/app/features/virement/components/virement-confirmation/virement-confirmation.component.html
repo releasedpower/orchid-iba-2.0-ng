@@ -16,6 +16,12 @@
                         <h5>Vérification des informations entrés</h5>
                      </div>
                       <div class="card-block">
+                        <div class="form-group row">
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Type virement :</label></div>
+                           <div class="col-md-5">    
+                               {{formData.type_virement}}
+                           </div>
+                        </div>
                          <div class="form-group row">
                             <div class="col-md-2"><label for="InputNormal" class="form-control-label">Compte à débiter :</label></div>
                             <div class="col-md-5">    
@@ -42,6 +48,10 @@
                             <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date d'execution<span style="color: red;">*</span> :</label></div>
                             <div class="col-md-6">{{formData.trans_ddate}}</div>
                          </div>
+                         <div class="form-group row">
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-6">{{formData.frequency}}</div>
+                        </div>
                       </div>
                    </div>
                 </div>

@@ -36,4 +36,25 @@ export class VirementService {
     };
     return this.httpClient.post(`${environment.endpoint}/virement`,data,httpOptions);
   }
+
+  insertVirementPermanent(data:any):Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.cookieService.get('token'),
+        'clt_vcode' : this.cookieService.get('clt_vcode')
+      })
+    };
+    return this.httpClient.post(`${environment.endpoint}/virementPermanent`,data,httpOptions);
+  }
+  getVirementsPermanents(cpt_vcode:string){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.cookieService.get('token'),
+        'clt_vcode' : this.cookieService.get('clt_vcode')
+      })
+    };
+    return this.httpClient.get(`${environment.endpoint}/virementsPermanents/${cpt_vcode}`,httpOptions);
+  }
 }

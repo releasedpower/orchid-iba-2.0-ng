@@ -20,11 +20,10 @@
                      <div class="form-group row">
                         <div class="col-md-2"><label class="form-control-label">Type de virement :</label></div>
                         <div class="col-md-5">                        
-                           <select class="form-control" formControlName="type_virement">
+                           <select formControlName="type_virement" [(ngModel)]="selectedTypeVirement" class="form-control form-control-sm">
                               <option value="">Séléctionner le type de virement</option>
-                              <option value="interne">Virement interne</option>
-                              <option value="externe">Virement externe</option>
-                              <option value="permanent">Virement permanent</option>
+                              <option value="VirementUnique">Virement unique</option>
+                              <option value="VirementPermanent">Virement permanent</option>
                            </select>
                         </div>
                      </div>
@@ -78,12 +77,31 @@
                            <input formControlName="trans_vdescript" type="text" class="form-control form-control-sm" placeholder="Description de la transaction ici">
                         </div>
                      </div>
-                     <div class="form-group row">
-                        <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date d'execution<span style="color: red;">*</span> :</label></div>
-                        <div class="col-md-6">                        
-                           <input formControlName="trans_ddate" type="date" class="form-control form-control-sm" placeholder="00000">
+                     <ng-container *ngIf="selectedTypeVirement==='VirementPermanent'">
+                        <div class="form-group row">
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence d'execution<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-5">                        
+                              <select formControlName="frequence" class="form-control form-control-sm">
+                                 <option value="">Séléctionner la fréquence d'exécution</option>
+                                 <option value="biweekly">Bimensuel</option>
+                                 <option value="monthly">Mensuel</option>
+                                 <option value="quarterly">Trimestriel</option>
+                              </select>
+                           </div>
                         </div>
-                     </div>
+                        <div class="form-group row">
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date début<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-6">                        
+                              <input formControlName="debut" type="date" class="form-control form-control-sm" placeholder="00000">
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date fin<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-6">                        
+                              <input formControlName="fin" type="date" class="form-control form-control-sm" placeholder="00000">
+                           </div>
+                        </div>
+                     </ng-container>
                   </div>
                </div>
             </div>

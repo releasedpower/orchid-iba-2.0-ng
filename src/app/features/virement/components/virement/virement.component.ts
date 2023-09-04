@@ -21,7 +21,7 @@ export class VirementComponent implements OnInit {
   beneficiaires:any = [] ;
   selectedDate: Date = new Date();
   isVirInterne:boolean = true;
-  selectedTypeVir:string = 'Virement interne';
+  selectedTypeVirement:string = 'VirementUnique';
 
   constructor(private compteService: CompteService,
     private beneficiaireService: BeneficiaireService,
@@ -30,6 +30,7 @@ export class VirementComponent implements OnInit {
     private dataSharingService : DataSharingService,
     private router: Router){}
 
+    
   ngOnInit() {
     this.getComptes();
     this.getBeneficiaires();
@@ -38,13 +39,15 @@ export class VirementComponent implements OnInit {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
   virementForm = new FormGroup({
-    type_virement : new FormControl(''),
+    type_virement : new FormControl('',[Validators.required]),
     typetrans_iid :new FormControl('VIR'),
     cpt_iid: new FormControl('',[Validators.required]), //sender
     ben_iid: new FormControl('',[Validators.required]), //receiver
     trans_vmontant: new FormControl('',[Validators.required,Validators.pattern(/^-?\d+(\.\d+)?$/),Validators.min(10000),Validators.max(10000000)]),
     trans_vdescript: new FormControl('',[Validators.required]),
-    trans_ddate: new FormControl(''),
+    frequence: new FormControl(''),
+    debut: new FormControl(''),
+    fin: new FormControl(''),
   });
 
   onSubmit(){
@@ -52,12 +55,14 @@ export class VirementComponent implements OnInit {
       this.isNotFilled = true;
     }
     else{
-      let data = {
+      let data:any = {
+        'type_virement':this.virementForm.get('type_virement')?.value,
         'typetrans_iid': 28,
         'trans_vcodecli' :this.cookieService.get('clt_vcode'),
-        'trans_ddate' : this.virementForm.get('trans_ddate')?.value,
         'trans_vmontant' : this.virementForm.get('trans_vmontant')?.value,
         'trans_vdescript' : this.virementForm.get('trans_vdescript')?.value,
+        'debut':this.virementForm.get('debut')?.value,
+        'fin':this.virementForm.get('fin')?.value,
         'sender_banque_vcode' : '',
         'sender_branche_iid' : '',
         'sender_vnumcpt' : '',
@@ -66,7 +71,12 @@ export class VirementComponent implements OnInit {
         'receiver_branche_iid' : '',
         'receiver_vnumcpt' : '',
         'receiver_vclerib' : '',
+        'frequency':'',
       };
+      if (this.virementForm.get('type_virement')?.value === 'VirementPermanent') {
+        data.frequency = this.virementForm.get('frequence')?.value;
+        data.trans_ddate = this.virementForm.get('trans_ddate')?.value;
+      }
       const cpt_iid = this.virementForm.get('cpt_iid')?.value;
       const ben_iid = this.virementForm.get('ben_iid')?.value;
   

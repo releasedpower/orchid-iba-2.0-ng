@@ -19,10 +19,18 @@ export class VirementConfirmationComponent implements OnInit {
     console.log(this.formData);
   }
   onSubmit(){
-    this.virementService.insertVirement(this.formData).subscribe({
-      next: () => console.log('ok'),
-      error: error => console.log(error)
-    })
+    if(this.formData.type_virement==='VirementUnique'){
+      this.virementService.insertVirement(this.formData).subscribe({
+        next: () => console.log('ok'),
+        error: error => console.log(error)
+      })
+    }
+    else if(this.formData.type_virement==='VirementPermanent'){
+      this.virementService.insertVirementPermanent(this.formData).subscribe({
+        next: () => console.log('ok'),
+        error: error => console.log(error)
+      })
+    }
   }
   onCancel() {
     console.log('Cancel button clicked');
