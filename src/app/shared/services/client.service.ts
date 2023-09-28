@@ -38,6 +38,16 @@ export class ClientService {
         throw error;
       })
     );;
-  
+  }
+
+  getClientById(): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.cookieService.get('token'),
+        'clt_vcode' : this.cookieService.get('clt_vcode')
+      })
+    };
+    return this.httpClient.get(`${environment.endpoint}/client/${this.cookieService.get('clt_vcode')}`,httpOptions);
   }
 }

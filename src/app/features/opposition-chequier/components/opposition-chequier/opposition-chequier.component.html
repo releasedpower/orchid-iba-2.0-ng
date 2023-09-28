@@ -37,7 +37,7 @@
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Type d'opposition :</label></div>
                            <div class="col-md-3">                        
-                              <select formControlName="oppchq_vtype" [(ngModel)]="selectedTypeCheque" class="form-control form-control-sm" (change)="onChangeTypeCheque()">
+                              <select formControlName="oppchq_vtype" [(ngModel)]="selectedTypeCheque" class="form-control form-control-sm">
                                  <option value="Signed">Chèque signé</option>
                                  <option value="Unsigned">Chèque vierge</option>
                               </select>
@@ -70,6 +70,7 @@
                            <div class="col-md-3"><label class="form-control-label">Motif :</label></div>
                            <div class="col-md-3">                        
                               <select formControlName="oppchq_vmotif" class="form-control form-control-sm">
+                                 <option value="">Séléctionner le motif</option>
                                  <option value="Perte">Perte</option>
                                  <option value="Vol">Vol</option>
                               </select>

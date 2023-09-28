@@ -55,8 +55,7 @@ export class AjoutBeneficiaireComponent implements OnInit {
   insertBeneficiaire(){
     const subscription = this.beneficiaireService.insertBeneficiaire(this.beneficiaireForm.value).subscribe({
       next: () => {
-        console.log("Successfully added.");
-        this.refreshPage();
+        this.router.navigateByUrl('beneficiaires');
       },
       error:error => console.log(error)
     });
@@ -68,10 +67,5 @@ export class AjoutBeneficiaireComponent implements OnInit {
       this.getBranches(selectedBanque);
     }
   }
-  refreshPage() {
-    const currentRoute = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentRoute]);
-    });
-  }
+
 }

@@ -22,7 +22,7 @@
 									<p class="form-control-label">Code d'authentification</p>
 									<div class="md-input-wrapper">
 										<div class="input-group">
-											<input type="number" [(ngModel)]="twoFaCode" #mdpField
+											<input type="number" [(ngModel)]="twoFaCode" [ngModelOptions]="{standalone: true}" #mdpField
 												[class]="'form-control' " placeholder="Entrer votre code secret"
 												[readOnly]="false">
 											<div class="input-group-btn">

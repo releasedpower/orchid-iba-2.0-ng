@@ -13,7 +13,17 @@ export class AppComponent {
   constructor(private router:Router, private cookieService:CookieService, private loginService: LoginService){
   }
   ngOnInit(): void {
-    this.loginService.checkTokenAndRedirect();
+    const expirationDateString = localStorage.getItem('expiration');
+    if (expirationDateString){
+      const expirationDate = new Date(expirationDateString);
+
+      if (expirationDate < new Date()) {
+        this.router.navigateByUrl('login');
+      }
+    }
+    else if ((!expirationDateString) || (!this.cookieService.get('clt_vcode'))){
+      this.router.navigateByUrl('login')
+    }
   }
   isOnLogin(){
     if (this.router.url==='/login' || this.router.url==='/login-2fa'){

@@ -64,4 +64,7 @@ export class HistoriqueOppositionComponent implements OnInit {
       this.router.navigate([currentRoute]);
     });
   }
+  toggleReverse(){
+    this.oppositionsChequier.reverse();
+  }
 }

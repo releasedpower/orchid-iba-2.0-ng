@@ -57,4 +57,15 @@ export class VirementService {
     };
     return this.httpClient.get(`${environment.endpoint}/virementsPermanents/${cpt_vcode}`,httpOptions);
   }
+  delete(virper_iid:string){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.cookieService.get('token'),
+        'clt_vcode' : this.cookieService.get('clt_vcode')
+      })
+    };
+    return this.httpClient.delete(`${environment.endpoint}/virementPermanent/delete/${virper_iid}`,httpOptions);
+  }
+  
 }

@@ -17,39 +17,13 @@
           </div>
           <div class="row col-xl-3 col-md-6 col-sm-4">
             <select class="form-control select-cpt" id="exampleSelect1">
-               <option>DAV Riana Rahajary</option>
-               <option>EPR Riana Rahajary</option>
+               <option>DAV Riana Rahajary</option> 
            </select>
-          </div>
-          <div class="col-lg-9 col-md-8 col-sm-10"> 
-            <form>
-               <div class="row">
-                 <div class="col-lg-9 col-md-8">
-                  <div class="form-group row">
-                     <div class="col-md-1"><label for="InputNormal" class="form-control-label">Entre:</label></div>
-                     <div class="col-md-3">                        
-                        <input type="date" class="form-control form-control-sm" placeholder="00000">
-                     </div>
-                     <div class="col-md-1"><label for="InputNormal" class="form-control-label">Et:</label></div>
-                     <div class="col-md-3">                        
-                        <input type="date" class="form-control form-control-sm" placeholder="00000">
-                     </div>
-                     <div class="col-md-2">
-                     <button type="submit" class="btn btn-success">Rechercher</button>
-                     </div>
-                    </div>
-   
-                 </div>
-              </div>
-              </form>
           </div>
 
           <div class="row">
              <div class="col-xl-12 col-lg-12 col-sm-12"> 
                 <div class="card">
-                    <div class="card-header" style="background-color: #ebeff258;">
-                        <h6>Interval </h6>
-                     </div>
                    <div class="card-block">
                       <div class="table-responsive">
                          <table class="table table-hover">
@@ -68,20 +42,33 @@
                                   <th>Action</th>
                                </tr>
                             </thead>
-                            <tbody>
-                                <tr *ngFor="let vp of virementsPermanents">
+                            <tbody *ngIf="virementsPermanents">
+                                <tr *ngFor="let vp of virementsPermanents; let i = index">
                                     <td>{{vp.virper_iid}}</td>
                                     <td>{{vp.sender_banque_vcode}} {{vp.sender_branche_vcode}} {{vp.sender_vnumcpt}} {{vp.sender_vclerib}}</td>
                                     <td>{{vp.receiver_banque_vcode}} {{vp.receiver_branche_vcode}} {{vp.receiver_vnumcpt}} {{vp.receiver_vclerib}}</td>
                                     <td>{{vp.montant}}</td>
                                     <td>{{vp.virper_vdescript}}</td>
                                     <td>{{vp.frequency}}</td>
-                                    <td>{{vp.debut | dateToFrench}}</td>
-                                    <td>{{vp.fin | dateToFrench}}</td>
-                                    <td>{{vp.last_execution_date | dateToFrench}} </td>
-                                    <td>{{vp.next_execution_date | dateToFrench}}</td>
-                                    <td></td>
+                                    <td *ngIf="selectedRowIndex !== i ">{{ vp.debut | dateToFrench }}</td>
+                                    <td *ngIf="selectedRowIndex !== i ">{{ vp.fin | dateToFrench }}</td>
+                                    <td *ngIf="selectedRowIndex === i && isEdited">
+                                       <input type="date" class="form-control">
+                                    </td>
+                                    <td *ngIf="selectedRowIndex === i && isEdited">
+                                       <input type="date" class="form-control">
+                                    </td>
+                                    <td>
+                                       <button class="btn btn-primary" (click)="onEdit(i)">Edit</button>
+                                       <button class="btn btn-danger" (click)="onDelete(vp.virper_iid)">Delete</button>
+                                    </td>
                                 </tr>
+                                <tr *ngIf="isLoading">
+                                    <td><h6>Chargement ...</h6></td>
+                                </tr>
+                                <tr *ngIf="isEmpty">
+                                 <td><h6>Aucune donnée</h6></td>
+                                 </tr>
                             </tbody>
                          </table>
                       </div>

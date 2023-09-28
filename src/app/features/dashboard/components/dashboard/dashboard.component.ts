@@ -15,9 +15,10 @@ export class DashboardComponent implements OnInit {
   private subscriptions:Subscription[] = [];
   constructor(private compteService: CompteService, private transactionService: TransactionService,
     private clientService:ClientService) { }
-  comptes:Compte [] = [];
+  comptes:any [] = [];
   transRecentes:any[] = [];
   isEmailWarningVisible = false;
+  isLoading = true;
   ngOnInit(): void {
     this.getComptes();
     this.checkEmail();
@@ -30,8 +31,8 @@ export class DashboardComponent implements OnInit {
       next:(result)=>{
         this.comptes=result;
         this.getTransRecentes();
-
       },
+      complete:()=> this.isLoading=false,
       error:(error)=>{
         console.log(error);
       }

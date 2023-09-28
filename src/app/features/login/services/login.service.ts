@@ -5,35 +5,45 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
 import { environment } from 'src/environments/environment';
+import { ClientService } from 'src/app/shared/services/client.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+  private isOtpAuthenticated: boolean = false;
 
   constructor(private httpClient: HttpClient, 
       private cookieService: CookieService, 
-      private router: Router,
       private tokenService: TokenService,
     ) { }
     
+  setisOtpAuthenticated(value: boolean): void {
+    this.isOtpAuthenticated = value;
+  }
+
+  getisOtpAuthenticated(): boolean {
+    return this.isOtpAuthenticated;
+  }
   login(data:any):Observable<any>{
     return this.httpClient.post(`${environment.endpoint}/login`,data, {withCredentials: true});
   }
-  checkTokenAndRedirect() {
+
+  isAuthenticated(){
     const token = this.cookieService.get('token');
     const expDate = this.tokenService.getExpiration();
-    if (expDate) {
+    if (expDate && token) {
       if (!token || new Date(expDate) < new Date()) {
-        this.router.navigateByUrl('/login');
-      } else {
-        this.router.navigateByUrl('/dashboard');
-      }
-    } else {
-      this.router.navigateByUrl('/login');
-    }
+        return false;
+      } else return true
+    } 
+    else return false; 
   }
-  verifyOtp(data:any){
-    return this.httpClient.post(`${environment.endpoint}/verifyOtp`,data, {withCredentials: true});
+
+  verifyOtp(clt_vcode:string, otp:string){
+    return this.httpClient.post(`${environment.endpoint}/verifyOtp/${clt_vcode}/${otp}`, {withCredentials: false});
+  }
+  generateOtp(clt_vcode:string){
+    return this.httpClient.post(`${environment.endpoint}/generateOtp/${clt_vcode}`, {withCredentials: false});
   }
 }

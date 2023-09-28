@@ -47,6 +47,7 @@
                            <div class="col-md-3"><label class="form-control-label">Type de carnet :</label></div>
                            <div class="col-md-3">                        
                               <select formControlName="demchq_vnbpage" class="form-control form-control-sm">
+                                 <option value="">Séléctionner le type de carnet</option>
                                  <option [value]="10">10 pages</option>
                                  <option [value]="25">25 pages</option>
                                  <option [value]="50">50 pages</option>
@@ -57,7 +58,7 @@
                         <div class="form-group row">
                            <div class="col-md-3"><label class="form-control-label">Nombre de carnet à commander:</label></div>
                            <div class="col-md-3">                        
-                              <input formControlName="demchq_inbcarnet" type="number" class="form-control form-control-sm">
+                              <input formControlName="demchq_inbcarnet" type="number" class="form-control form-control-sm" placeholder="Nombre de carnet">
                            </div>
                         </div>
                         <div class="form-group row">
@@ -74,6 +75,9 @@
                </div>
              </div>
             </form>
+            <div class="col-sm-12 col-xs-12 text-center" *ngIf="successMessageVisible">
+               <h6 style="color: green;">Votre commande a ajoutée</h6>
+            </div>
             <div class="row">
                <div class="col-lg-11">
                 <div class="form-group row justify-content-end">

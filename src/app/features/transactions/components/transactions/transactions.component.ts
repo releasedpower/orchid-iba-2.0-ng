@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import html2canvas from 'html2canvas';
 import * as jspdf from 'jspdf';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions',
@@ -16,10 +17,16 @@ export class TransactionsComponent implements OnInit {
 
   constructor(private compteService: CompteService, private transactionService: TransactionService,private utility:UtilityService) { }
   comptes:any = [];
-  transactions:any = [];
+  transactions:any[] = [];
   filteredTransactions:any = [];
   currentPage = 1;
   itemsPerPage = 15; 
+
+  betweenDatesForm = new FormGroup({
+    debut: new FormControl('',[Validators.required]),
+    fin: new FormControl('',[Validators.required])
+  });
+
 
   // FILTRES
   isReversed:boolean =false;
@@ -38,12 +45,13 @@ export class TransactionsComponent implements OnInit {
   // END FILTRES
 
   ngOnInit(): void {
-    this.getTransactions();
+    this.getComptes();
   }
   getComptes(){
     const subscription = this.compteService.getComptes().subscribe({
       next:(result)=>{
         this.comptes=result;
+        this.getTransactions(this.comptes[0].cpt_vcode);
       },
       error:(error)=>{
         console.log(error);
@@ -51,8 +59,8 @@ export class TransactionsComponent implements OnInit {
     });
     this.subscriptions.push(subscription);
   }
-  getTransactions(){
-    const subscription = this.transactionService.getTransactions('00125100001').subscribe({
+  getTransactions(cpt_vcode:string){
+    const subscription = this.transactionService.getTransactions(cpt_vcode).subscribe({
       next:(result)=>{
         this.transactions=result;
         this.filteredTransactions = [...this.transactions]; //manao copy an'i transactions mankany am filtered
@@ -63,6 +71,24 @@ export class TransactionsComponent implements OnInit {
     });
     this.subscriptions.push(subscription);
 
+  }
+  getTransactionsDate(){
+    if(this.comptes){
+      const subscription = this.transactionService.getTransactionsDate(
+        this.comptes[0].cpt_vcode,
+        this.betweenDatesForm.get('debut')?.value,
+        this.betweenDatesForm.get('fin')?.value).subscribe({
+        next:(result)=>{
+          console.log("ok");
+          this.transactions=result;
+          this.filteredTransactions = [...this.transactions]; //manao copy an'i transactions mankany am filtered
+        },
+        error:(error)=>{
+          console.log(error);
+        }
+      });
+      this.subscriptions.push(subscription);
+    }
   }
   transform(value: number): string {
     let roundedValue = Math.round(value * 1) / 1; // Round to the nearest 10th

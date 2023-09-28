@@ -23,7 +23,7 @@
                             <thead>
                                <tr class="text-uppercase">
                                   <th>N° Opposition</th>
-                                  <th>Date</th>
+                                  <th>Date  <span><i class="ti-arrows-vertical" (click)="toggleReverse()"></i></span></th>
                                   <th>Type de chéquier</th>
                                   <th>N° opposition début</th>
                                   <th>N° opposition fin</th>
@@ -42,7 +42,9 @@
                                   <td>{{opp.oppchq_inumfin}}</td>
                                   <td>{{opp.oppchq_vmontant}}</td>
                                   <td>{{opp.oppchq_vmotif}}</td>
-                                  <td>{{opp.oppchq_vstatus}}</td>
+                                  <td *ngIf="opp.oppchq_vstatus === 'Valid'" style="color: green;">Validé</td>
+                                  <td *ngIf="opp.oppchq_vstatus === 'Invalid'" style="color: red;">Non validé</td>
+                                  <td *ngIf="opp.oppchq_vstatus === 'Pending'">En attente</td>
                                   <td *ngIf="selectedRowIndex !== i">
                                     <button (click)="toggleConfirm(i)" class="btn btn-danger">
                                        <span class="ti-close"></span>

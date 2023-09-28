@@ -15,6 +15,8 @@ export class HistoriqueChequierComponent implements OnInit {
     private compteService:CompteService,
     private router:Router) { }
   comptes:any= [];
+  isLoading = true;
+  isEmpty = false;
   demandesChequier:any = [];
   selectedRowIndex:number = -1;
   ngOnInit(): void {
@@ -25,6 +27,17 @@ export class HistoriqueChequierComponent implements OnInit {
       next:(result) => {
         this.demandesChequier = result;
         console.log(result);
+        this.demandesChequier.forEach((dc:any) => {
+          if(dc.demchq_vdescript!='Commande en cours'|| dc.demchq_vdescript!="Disponible à l'agence"){
+            dc.demchq_vdescript = 'Commande en cours';
+          }
+        });
+      },
+      complete:()=>{
+        this.isLoading=false;
+        if(!this.demandesChequier){
+          this.isEmpty = true;
+        }
       },
       error:error => console.error()
     }); 
@@ -58,5 +71,8 @@ export class HistoriqueChequierComponent implements OnInit {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentRoute]);
     });
+  }
+  toggleReverse(){
+    this.demandesChequier.reverse();
   }
 }

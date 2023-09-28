@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CompteService } from 'src/app/shared/services/compte/compte.service';
 import { OppositionService } from '../../services/opposition.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-opposition-chequier',
@@ -10,7 +11,8 @@ import { OppositionService } from '../../services/opposition.service';
 })
 export class OppositionChequierComponent implements OnInit {
 
-  constructor(private compteService: CompteService, private oppositionService: OppositionService) { }
+  constructor(private compteService: CompteService, private oppositionService: OppositionService,
+    private router:Router) { }
   comptes:any = [];
   selectedTypeCheque:any='signed';
 
@@ -36,19 +38,18 @@ export class OppositionChequierComponent implements OnInit {
       error:(error) => console.log(error)
     });
   }
-  onChangeTypeCheque(){
-    console.log(this.selectedTypeCheque);
-  }
   onClickOpposition(){
     if(this.selectedTypeCheque === 'Signed'){
       this.oppositionService.insertOppositionSigned(this.oppositionChequierForm.value).subscribe({
-        next: () => console.log('success signed'),
+        next: () => {
+          this.router.navigateByUrl('chequier-opposition-historique')
+        },
         error: error => console.log(error)
       })
     }
     else if(this.selectedTypeCheque === 'Unsigned'){
       this.oppositionService.insertOppositionUnsigned(this.oppositionChequierForm.value).subscribe({
-        next: () => console.log('success unsigned'),
+        next: () => this.router.navigateByUrl('chequier-opposition-historique'),
         error: error => console.log(error)
       })
     }

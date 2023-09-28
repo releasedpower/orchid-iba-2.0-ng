@@ -23,7 +23,7 @@
                             <thead>
                                <tr class="text-uppercase">
                                   <th>N°</th>
-                                  <th>Date</th>
+                                  <th>Date  <span><i class="ti-arrows-vertical" (click)="toggleReverse()"></i></span></th>
                                   <th>Type de chéquier</th>
                                   <th>Agence de récupération</th>
                                   <th>Statut</th>
@@ -51,6 +51,16 @@
                                     </button>
                                  </td>
                                </tr>
+                               <tr *ngIf="isLoading">
+                                 <td>
+                                    <h6>Chargement ...</h6>
+                                 </td>
+                              </tr>
+                              <tr *ngIf="isEmpty">
+                                 <td>
+                                    <h6>Aucune donnée</h6>
+                                 </td>
+                              </tr>
                             </tbody>
                          </table>
                       </div>

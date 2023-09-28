@@ -7,20 +7,23 @@
     </a>
     <nav class="navbar navbar-static-top">
        <!-- Sidebar toggle button-->
-       <a href="#!" data-toggle="offcanvas" class="sidebar-toggle"></a>
           <ul class="top-nav rgt-nav">
+            <li *ngIf="client">
+               <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle drop icon-circle drop-image">
+                  {{client.clt_vnom}} {{client.clt_vprenom}}
+               </a>
+            </li>
+            <li>
+               <a routerLink="settings" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle drop icon-circle drop-image">
+                  <i class="ti-settings"></i>
+               </a>
+            </li> 
              <li>
                 <a (click)="logout()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle drop icon-circle drop-image">
-                   Déconnexion
+                  <i class="icon-logout"></i>
                 </a>
              </li>
           </ul>
-          <ul class="top-nav rgt-nav">
-             <li>
-                <a routerLink="settings" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle drop icon-circle drop-image">
-                   <i class="ti-settings"></i>
-                </a>
-             </li> 
-          </ul>
+          
     </nav>
  </header>

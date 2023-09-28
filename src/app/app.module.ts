@@ -17,6 +17,7 @@ import { CookieModule } from 'ngx-cookie';
 import { BeneficiaireModule } from './features/beneficiaire/beneficiaire.module';
 import { VirementModule } from './features/virement/virement.module';
 import { TransactionsModule } from './features/transactions/transactions.module';
+import { DigitmaskPipe } from './shared/pipes/digitmask.pipe';
 
 @NgModule({
   declarations: [

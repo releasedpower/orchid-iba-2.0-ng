@@ -4,6 +4,7 @@ import { ChequierService } from '../../services/chequier.service';
 import { BrancheService } from 'src/app/shared/services/banque/branche.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-commande-chequier',
@@ -16,7 +17,9 @@ export class CommandeChequierComponent implements OnInit {
   comptes:any= [];
   branches:any= [];
   typesChequier:any = [];
-  constructor(private compteService: CompteService, private chequierService:ChequierService , private brancheService:BrancheService) { }
+  successMessageVisible=false;
+  constructor(private compteService: CompteService, private chequierService:ChequierService , private brancheService:BrancheService,
+    private router:Router) { }
 
   ngOnInit(): void {
     this.getComptes();
@@ -64,7 +67,10 @@ export class CommandeChequierComponent implements OnInit {
   }
   addDemandeChequier(){
     const subscription = this.chequierService.insertDemandeChequier(this.demandeChequierForm.value).subscribe({
-      next:() =>console.log('success'),
+      next:() =>{
+        this.successMessageVisible=true;
+        this.router.navigateByUrl('chequier-historique')
+      },
       error:(error) => console.log(error)
     })
     this.subscriptions.push(subscription);

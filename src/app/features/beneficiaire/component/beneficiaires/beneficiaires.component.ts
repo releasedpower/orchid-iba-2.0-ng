@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BeneficiaireService } from '../../services/beneficiaire.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-beneficiaires',
@@ -10,8 +12,15 @@ import { Router } from '@angular/router';
 })
 export class BeneficiairesComponent implements OnInit {
   beneficiaires:any = [];
+  filteredBeneficiaires:any = [];
+  isLoading = true;
+  isEmpty = false;
   selectedRowIndex: number = -1;
   constructor(private beneficiaireService:BeneficiaireService,private cookieService: CookieService,private router:Router) { }
+
+  searchForm = new FormGroup({
+    searchField : new FormControl('')
+  });
 
   ngOnInit(): void {
     this.getBeneficiaires();
@@ -20,10 +29,15 @@ export class BeneficiairesComponent implements OnInit {
     this.beneficiaireService.getBeneficiaires(this.cookieService.get('clt_vcode')).subscribe({
       next: (result)=> {
         this.beneficiaires = result;
-        console.log(this.cookieService.get('clt_vcode'));
-        console.log(result);
+        this.filteredBeneficiaires = [...this.beneficiaires];
       },
-      error:error => console.error()
+      complete:()=>{
+        this.isLoading = false;
+        if(this.beneficiaires.length <=0){
+          this.isEmpty = true;
+        }
+      },
+      error:error => console.log(error)
     });
   }
   toggleConfirm(rowIndex: number) {
@@ -38,7 +52,7 @@ export class BeneficiairesComponent implements OnInit {
         console.log('success delete');
         this.refreshPage();
       },
-      error: error => console.log(error)
+      error:error => console.log(error)
     });
   }
   refreshPage() {
@@ -46,5 +60,16 @@ export class BeneficiairesComponent implements OnInit {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentRoute]);
     });
+  }
+  toggleReverse(){
+    this.beneficiaires.reverse();
+  }
+  searchBeneficiaire(){
+    const searchField = this.searchForm.get('searchField')?.value?.toLowerCase();
+    this.filteredBeneficiaires = this.beneficiaires.filter(
+      (ben:any) => 
+      ben.ben_vnom.toString().toLowerCase().includes(searchField)
+      || ben.ben_vprenom.toString().toLowerCase().includes(searchField));
+      console.log(this.filteredBeneficiaires);
   }
 }

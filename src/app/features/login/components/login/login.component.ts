@@ -45,11 +45,13 @@ export class LoginComponent implements OnInit {
       try {
         const result = await this.loginService.login(this.loginForm.value).toPromise();
         this.tokenService.storeExpiration(result.expiration);
-        
+
         const emailCheckResult = await this.checkEmail();
         if (emailCheckResult) {
+          this.loginService.setisOtpAuthenticated(false);
           this.router.navigateByUrl('login-2fa');
         } else {
+          this.loginService.setisOtpAuthenticated(true);
           this.router.navigateByUrl('/dashboard');
         }
       } catch (error) {

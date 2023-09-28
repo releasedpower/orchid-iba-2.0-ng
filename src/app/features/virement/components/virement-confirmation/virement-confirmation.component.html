@@ -18,9 +18,12 @@
                       <div class="card-block">
                         <div class="form-group row">
                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Type virement :</label></div>
-                           <div class="col-md-5">    
-                               {{formData.type_virement}}
+                           <div class="col-md-5" *ngIf="formData.type_virement === 'VirementPermanent'">    
+                               Virement permanent
                            </div>
+                           <div class="col-md-5" *ngIf="formData.type_virement === 'VirementUnique'">    
+                              Virement unique
+                          </div>
                         </div>
                          <div class="form-group row">
                             <div class="col-md-2"><label for="InputNormal" class="form-control-label">Compte à débiter :</label></div>
@@ -44,14 +47,16 @@
                             <div class="col-md-2"><label for="InputNormal" class="form-control-label">Description<span style="color: red;">*</span> :</label></div>
                             <div class="col-md-6">{{formData.trans_vdescript}} </div>
                          </div>
-                         <div class="form-group row">
-                            <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date d'execution<span style="color: red;">*</span> :</label></div>
-                            <div class="col-md-6">{{formData.trans_ddate}}</div>
-                         </div>
-                         <div class="form-group row">
-                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence<span style="color: red;">*</span> :</label></div>
-                           <div class="col-md-6">{{formData.frequency}}</div>
-                        </div>
+                         <ng-container *ngIf="formData.type_virement === 'VirementPermanent'">
+                           <div class="form-group row">
+                              <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date d'execution<span style="color: red;">*</span> :</label></div>
+                              <div class="col-md-6">{{formData.debut}}</div>
+                           </div>
+                           <div class="form-group row" *ngIf="formData.frequency">
+                              <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence<span style="color: red;">*</span> :</label></div>
+                              <div class="col-md-6">{{formData.frequency}}</div>
+                           </div>
+                        </ng-container>
                       </div>
                    </div>
                 </div>
@@ -60,7 +65,7 @@
                 <div class="col-lg-11">
                  <div class="form-group row justify-content-end">
                    <div class="col-md-6">
-                     <button (click)="onSubmit()" type="submit" style="margin-right: 10px;" class="btn btn-success">Effectuer le virement</button>
+                     <button (click)="onSubmit()" [ngClass]="isDisabled ? 'btn btn-inverse-disabled' :'btn btn-success'" type="submit" style="margin-right: 10px;" >Effectuer le virement</button>
                      <button (click)="onCancel()" type="submit" class="btn btn-inverse-default">Annuler</button>
                    </div>
                 </div>

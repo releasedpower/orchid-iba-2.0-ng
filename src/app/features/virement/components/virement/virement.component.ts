@@ -30,7 +30,7 @@ export class VirementComponent implements OnInit {
     private dataSharingService : DataSharingService,
     private router: Router){}
 
-    
+  selectedCompte:any ;
   ngOnInit() {
     this.getComptes();
     this.getBeneficiaires();
@@ -75,7 +75,7 @@ export class VirementComponent implements OnInit {
       };
       if (this.virementForm.get('type_virement')?.value === 'VirementPermanent') {
         data.frequency = this.virementForm.get('frequence')?.value;
-        data.trans_ddate = this.virementForm.get('trans_ddate')?.value;
+
       }
       const cpt_iid = this.virementForm.get('cpt_iid')?.value;
       const ben_iid = this.virementForm.get('ben_iid')?.value;

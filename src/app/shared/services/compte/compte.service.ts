@@ -18,6 +18,7 @@ export class CompteService {
         'clt_vcode' : this.cookieService.get('clt_vcode')
       })
     };
-    return this.httpClient.get(`${environment.endpoint}/comptes`,httpOptions);
+    return this.httpClient.get(`${environment.endpoint}/comptes/${this.cookieService.get('clt_vcode')}`,httpOptions);
   }
 }
+ 
