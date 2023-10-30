@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../../services/dashboard.service';
+import Chart from 'chart.js/auto';
 import { CompteService } from 'src/app/shared/services/compte/compte.service';
-import { Compte } from 'src/app/shared/interfaces/compte';
 import { Subscription } from 'rxjs';
 import { TransactionService } from 'src/app/features/transactions/services/transaction.service';
 import { ClientService } from 'src/app/shared/services/client.service';
@@ -12,54 +11,97 @@ import { ClientService } from 'src/app/shared/services/client.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private subscriptions:Subscription[] = [];
+  private subscriptions: Subscription[] = [];
   constructor(private compteService: CompteService, private transactionService: TransactionService,
-    private clientService:ClientService) { }
-  comptes:any [] = [];
-  transRecentes:any[] = [];
+    private clientService: ClientService) { }
+  comptes: any[] = [];
+  transRecentes: any[] = [];
   isEmailWarningVisible = false;
   isLoading = true;
+  isHidden = true;
+  chart:any = [];
+  data:any={
+    labels: ['Juillet','Août', 'Septembre', 'Octobre'],
+    datasets: [
+      { 
+        data: [1460000, 1763000, 1600000, 259000],
+        label:'Revenus',
+        borderColor: "#1d7808",
+        fill: false
+      },
+      { 
+        data: [1240000,1231300, 851482, 354141],
+        label:'Dépenses',
+        borderColor: "#fc0303",
+        fill: false
+      }
+    ]
+  };
+
   ngOnInit(): void {
     this.getComptes();
     this.checkEmail();
+    this.chartShow();
   }
-  ngOnDestroy(){
+  chartShow() {
+    this.chart = new Chart('canvas', {
+      type: 'line',
+      data: this.data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            // text: 'Chart.js Line Chart'
+          }
+        }
+      },
+    });
+  }
+  ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
-  getComptes(){
+  getComptes() {
     const subscription = this.compteService.getComptes().subscribe({
-      next:(result)=>{
-        this.comptes=result;
+      next: (result) => {
+        this.comptes = result;
         this.getTransRecentes();
       },
-      complete:()=> this.isLoading=false,
-      error:(error)=>{
+      complete: () => this.isLoading = false,
+      error: (error) => {
         console.log(error);
       }
     });
     this.subscriptions.push(subscription);
   }
-  checkEmail(){
+  toggleHiddenSolde() {
+    this.isHidden = !this.isHidden;
+    console.log(this.isHidden);
+  }
+  checkEmail() {
     const subscription = this.clientService.getEmail().subscribe({
       next: (result) => {
         console.log(result);
-        if(!result.email){
+        if (!result.email) {
           this.isEmailWarningVisible = true;
         }
-        else if(result.email){
+        else if (result.email) {
           this.isEmailWarningVisible = false;
         }
       },
-      error: (error) =>console.log(error)
+      error: (error) => console.log(error)
     });
     this.subscriptions.push(subscription);
   }
-  getTransRecentes(){
+  getTransRecentes() {
     const subscription = this.transactionService.getTransRecentes((this.comptes[0].cpt_vcode).toString()).subscribe({
-      next:(result)=>{
-        this.transRecentes=result;
+      next: (result) => {
+        this.transRecentes = result;
       },
-      error:(error)=>{
+      error: (error) => {
         console.log(error);
       }
     });

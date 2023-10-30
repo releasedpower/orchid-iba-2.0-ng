@@ -9,18 +9,12 @@
                <h3>Mes bénéficiaires</h3>
             </div>
          </div>
-         <div class="row col-xl-2 col-md-5 col-sm-4" style="margin-bottom: 20px;float: left;">
-            <select class="form-control select-cpt" id="exampleSelect1">
-               <option>DAV Riana Rahajary</option>
-               <option>EPR Riana Rahajary</option>
-            </select>
-         </div>
          <div class="col-lg-10 col-md-8 col-sm-10"> 
             <form [formGroup]="searchForm">
                <div class="row">
                  <div class="col-lg-9 col-md-8">
                   <div class="form-group row" style="float: right;">
-                     <div class="col-md-7">                        
+                     <div class="col-md-8">                        
                         <input formControlName="searchField" type="text" class="form-control" placeholder="Recherche">
                      </div>
                      <div class="col-md-2">
@@ -39,7 +33,6 @@
                         <table class="table table-hover">
                            <thead>
                               <tr class="text-uppercase">
-                                 <th>N°</th>
                                  <th>Date création<span><i class="ti-arrows-vertical"
                                           (click)="toggleReverse()"></i></span></th>
                                  <th>Nom</th>
@@ -50,27 +43,26 @@
                            </thead>
                            <tbody>
                               <tr *ngFor="let beneficiaire of filteredBeneficiaires; let i = index;">
-                                 <td>{{beneficiaire.ben_iid}}</td>
+                                 <!-- <td>{{beneficiaire.ben_iid}}</td> -->
                                  <td>{{beneficiaire.created_at | dateToFrench}}</td>
                                  <td>{{beneficiaire.ben_vnom}} {{beneficiaire.ben_vprenom}}</td>
                                  <td>{{beneficiaire.banque_vcode}} - {{beneficiaire.branche_vcode}} -
                                     {{beneficiaire.ben_vnumcpt}} - {{beneficiaire.ben_vclerib}}</td>
-                                 <td *ngIf="beneficiaire.ben_vstatus === 'Valid'" style="color: green;">Validé</td>
-                                 <td *ngIf="beneficiaire.ben_vstatus === 'Invalid'" style="color: red;">Non validé</td>
+                                 <td *ngIf="beneficiaire.ben_vstatus === 'Active'" style="color: green;">Actif</td>
+                                 <td *ngIf="beneficiaire.ben_vstatus === 'Inactive'" style="color: red;">Inactif</td>
                                  <td *ngIf="beneficiaire.ben_vstatus === 'Pending'">En attente</td>
                                  <td *ngIf="selectedRowIndex !== i">
-                                    <button (click)="toggleConfirm(i)" class="btn btn-danger">
-                                       <span class="ti-close"></span>
+                                    <button (click)="toggleConfirm(i)" class="btn btn">
+                                       <span class="ti-trash"></span>
                                     </button>
-                                 </td>
-                                 <td *ngIf="selectedRowIndex === i">
-                                    <button (click)="cancel()" class="btn btn-primary">
-                                       Annuler
-                                    </button><br /><br />
-                                    <button (click)="confirmDelete(beneficiaire.ben_iid)" class="btn btn-danger">
-                                       Supprimer
-                                    </button>
-                                 </td>
+                                    <td *ngIf="selectedRowIndex === i">
+                                       <button (click)="cancel()" class="btn btn-primary">
+                                          <span class="ti ti-back-left"></span>
+                                       </button><br/><br/>
+                                       <button (click)="confirmDelete(beneficiaire.ben_iid)" class="btn btn-danger">
+                                          <span class="ti ti-trash"></span>
+                                       </button>
+                                    </td>
                               </tr>
                               <tr *ngIf="isLoading">
                                  <td>

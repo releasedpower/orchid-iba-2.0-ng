@@ -22,7 +22,7 @@
                            <div class="col-md-5">                        
                               <select formControlName="oppchq_cpt_iid" class="form-control form-control-sm">
                                  <option value="">Séléctionner le compte correspondant</option>
-                                 <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vlibelle}}</option>
+                                 <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vtype == 1 ? 'DAV' : 'EPR'}} | {{compte.banque_vcode}} {{compte.branche_vcode}} {{compte.cpt_vcode}} {{compte.cpt_vclerib}}</option>
                               </select>
                            </div>
                         </div>

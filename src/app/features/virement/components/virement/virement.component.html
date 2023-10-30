@@ -40,61 +40,62 @@
                         <div class="col-md-5">                        
                            <select formControlName="cpt_iid" class="form-control form-control-sm">
                               <option value="">Séléctionner le compte à débiter</option>
-                              <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vlibelle}}</option>
+                              <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vtype == 1 ? 'DAV' : 'EPR'}} | {{compte.banque_vcode}} {{compte.branche_vcode}} {{compte.cpt_vcode}} {{compte.cpt_vclerib}}</option>
                            </select>
                         </div>
                      </div>
                      <div class="form-group row">
                         <div class="col-md-2">
-                           <label for="InputNormal" class="form-control-label">Compte à créditer<span style="color: red;">*</span> :</label>
+                           <label for="InputNormal" class="form-control-label">Compte à créditer:</label>
                            <p>(Parmis vos bénéficiaires)</p>
 
                         </div>
                         <div class="col-md-8">                        
                            <select formControlName="ben_iid" class="form-control form-control-sm">
                               <option value="">Séléctionner un bénéficiaire</option>
-                              <option [value]="beneficiaire.ben_iid" *ngFor="let beneficiaire of beneficiaires">{{beneficiaire.banque_vcode}} {{beneficiaire.ben_vnumcpt}} {{beneficiaire.ben_vnom}}</option>
+                              <option [value]="beneficiaire.ben_iid" *ngFor="let beneficiaire of beneficiaires">
+                                 {{beneficiaire.ben_vnom}} | {{beneficiaire.banque_vcode}} {{beneficiaire.branche_vcode}} {{beneficiaire.ben_vnumcpt}} {{beneficiaire.ben_vclerib}} </option>
                            </select>
                         </div>
                      </div>
                      <div class="form-group row">
-                        <div class="col-md-2"><label for="InputNormal" class="form-control-label">Montant<span style="color: red;">*</span> :</label></div>
+                        <div class="col-md-2"><label for="InputNormal" class="form-control-label">Montant:</label></div>
                         <div class="col-md-3">                        
-                           <input formControlName="trans_vmontant" type="number" class="form-control form-control-sm" placeholder="00000">
+                           <input formControlName="trans_vmontant" type="number" class="form-control form-control-sm" placeholder="">
                            <p *ngIf="virementForm.get('trans_vmontant')?.invalid" style="color: red;">
-                              <small *ngIf="virementForm.get('trans_vmontant')?.hasError('min')">Doit être supérieur à 10,000 Ar</small>
+                              <small *ngIf="virementForm.get('trans_vmontant')?.hasError('min')">Montant invalide.</small>
                               <small *ngIf="virementForm.get('trans_vmontant')?.hasError('pattern')">Montant invalide.</small>
-                              <small *ngIf="virementForm.get('trans_vmontant')?.hasError('max')">Doit être inférieur à 10,000,000 Ar</small>
+                              <small *ngIf="virementForm.get('trans_vmontant')?.hasError('max')">Montant invalide.</small>
                             </p>
                         </div>
                         <div class="col-md-1">Ar</div>
                      </div>
                      <div class="form-group row">
-                        <div class="col-md-2"><label for="InputNormal" class="form-control-label">Description<span style="color: red;">*</span> :</label></div>
+                        <div class="col-md-2"><label for="InputNormal" class="form-control-label">Description:</label></div>
                         <div class="col-md-6">                        
                            <input formControlName="trans_vdescript" type="text" class="form-control form-control-sm" placeholder="Description de la transaction ici">
                         </div>
                      </div>
                      <ng-container *ngIf="selectedTypeVirement==='VirementPermanent'">
                         <div class="form-group row">
-                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence d'execution<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence d'execution:</label></div>
                            <div class="col-md-5">                        
                               <select formControlName="frequence" class="form-control form-control-sm">
                                  <option value="">Séléctionner la fréquence d'exécution</option>
-                                 <option value="Bimensuel">Bimensuel</option>
-                                 <option value="Mensuel">Mensuel</option>
-                                 <option value="Trimestriel">Trimestriel</option>
+                                 <option value="Bimensuel">Bimensuel (1er et 15ème du mois)</option>
+                                 <option value="Mensuel">Mensuel (1er du mois)</option>
+                                 <option value="Trimestriel">Trimestriel (Tous les 1er du mois)</option>
                               </select>
                            </div>
                         </div>
                         <div class="form-group row">
-                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date début<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date début:</label></div>
                            <div class="col-md-6">                        
                               <input formControlName="debut" type="date" class="form-control form-control-sm" placeholder="00000">
                            </div>
                         </div>
                         <div class="form-group row">
-                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date fin<span style="color: red;">*</span> :</label></div>
+                           <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date fin:</label></div>
                            <div class="col-md-6">                        
                               <input formControlName="fin" type="date" class="form-control form-control-sm" placeholder="00000">
                            </div>
@@ -118,7 +119,6 @@
              <div class="form-group row justify-content-end">
                <div class="col-md-6">
                  <button (click)="onSubmit()" type="submit" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
-                 <button type="submit" class="btn btn-inverse-default">Annuler</button>
                </div>
             </div>
           </div>

@@ -944,7 +944,7 @@
     right: 0; }
 
   .sidebar-menu > li > a, .sidebar-menu li > ul > li > a {
-    border-1px solid #efefef: bottom;
+    border:1px solid #efefef;
     display: flex !important;
     align-items: center; }
 

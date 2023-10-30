@@ -50,7 +50,7 @@
                         <div class="form-group row">
                            <div class="col-md-3"><label for="InputNormal" class="form-control-label">Numéro du compte :</label></div>
                            <div class="col-md-5">                        
-                              <input type="text" formControlName="ben_vnumcpt" class="form-control form-control-sm" placeholder="0000000000"/>
+                              <input type="text" formControlName="ben_vnumcpt" class="form-control form-control-sm" placeholder="00000000000"/>
                               <p *ngIf="beneficiaireForm.get('ben_vnumcpt')?.invalid && beneficiaireForm.get('ben_vnumcpt')?.touched" style="color: red;">
                                  <small>Numéro de compte invalide.</small>
                                </p>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="form-group row">
                            <div class="col-md-3"><label for="InputNormal" class="form-control-label">Clé RIB :</label></div>
-                           <div class="col-md-5">                        
+                           <div class="col-md-1">                        
                               <input type="text" formControlName="ben_vclerib" class="form-control form-control-sm" placeholder="00"/>
                            </div>
                         </div>
@@ -71,7 +71,6 @@
                  <div class="form-group row justify-content-end">
                    <div class="col-md-6">
                      <button type="submit" (click)="insertBeneficiaire()" style="margin-right: 10px;" class="btn btn-success">Continuer</button>
-                     <button type="submit" class="btn btn-inverse-default">Annuler</button>
                    </div>
                 </div>
               </div>

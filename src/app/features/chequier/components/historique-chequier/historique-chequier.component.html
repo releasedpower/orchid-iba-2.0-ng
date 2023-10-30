@@ -11,7 +11,7 @@
           </div>
           <div class="row col-xl-4 col-md-12 col-sm-12" style="margin-bottom: 20px;">
             <select class="form-control select-cpt" id="exampleSelect1">
-               <option>Votre compte DAV</option>
+               <option *ngIf="comptes.length>0">{{comptes[0].cpt_vtype == 1 ? 'DAV' : 'EPR'}} | {{comptes[0].banque_vcode}} {{comptes[0].branche_vcode}} {{comptes[0].cpt_vcode}} {{comptes[0].cpt_vclerib}}</option>
            </select>
           </div>
           <div class="row">
@@ -38,16 +38,16 @@
                                   <td>{{demande.branche_vnom}}</td>
                                   <td>{{demande.demchq_vdescript}}</td>
                                   <td *ngIf="selectedRowIndex !== i">
-                                    <button (click)="toggleConfirm(i)" class="btn btn-danger">
-                                       <span class="ti-close"></span>
+                                    <button (click)="toggleConfirm(i)" class="btn btn">
+                                       <span class="ti-trash"></span>
                                     </button>
                                  </td>
                                  <td *ngIf="selectedRowIndex === i">
                                     <button (click)="cancel()" class="btn btn-primary">
-                                       Annuler
+                                       <span class="ti ti-back-left"></span>
                                     </button><br/><br/>
                                     <button (click)="confirmDelete(demande.demchq_iid )" class="btn btn-danger">
-                                       Supprimer
+                                       <span class="ti ti-trash"></span>
                                     </button>
                                  </td>
                                </tr>

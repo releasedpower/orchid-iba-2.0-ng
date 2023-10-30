@@ -28,10 +28,10 @@ export class VirementConfirmationComponent implements OnInit {
     if(this.formData.type_virement==='VirementUnique'){
       this.virementService.insertVirement(this.formData).subscribe({
         next: () => {
-          // this.router.navigateByUrl('transactions')
+          this.router.navigateByUrl('transactions')
         },
         complete: () =>{
-          this.router.navigateByUrl('transactions');
+          // this.router.navigateByUrl('transactions');
         },
         error: error => console.log(error)
       })

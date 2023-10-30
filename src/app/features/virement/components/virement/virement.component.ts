@@ -17,7 +17,7 @@ import { Subscription, forkJoin } from 'rxjs';
 export class VirementComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   isNotFilled = false;
-  comptes:Compte [] = [];
+  comptes:any [] = [];
   beneficiaires:any = [] ;
   selectedDate: Date = new Date();
   isVirInterne:boolean = true;
@@ -54,6 +54,8 @@ export class VirementComponent implements OnInit {
     if(this.virementForm.invalid){
       this.isNotFilled = true;
     }
+
+
     else{
       let data:any = {
         'type_virement':this.virementForm.get('type_virement')?.value,

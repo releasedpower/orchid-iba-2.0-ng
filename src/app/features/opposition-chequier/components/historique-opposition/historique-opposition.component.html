@@ -11,7 +11,7 @@
           </div>
           <div class="row col-xl-4 col-md-12 col-sm-12" style="margin-bottom: 20px;">
             <select class="form-control select-cpt" id="exampleSelect1">
-               <option>DAV</option>
+               <option *ngIf="comptes.length>0">{{comptes[0].cpt_vtype == 1 ? 'DAV' : 'EPR'}} | {{comptes[0].banque_vcode}} {{comptes[0].branche_vcode}} {{comptes[0].cpt_vcode}} {{comptes[0].cpt_vclerib}}</option>
            </select>
           </div>
           <div class="row">
@@ -25,8 +25,8 @@
                                   <th>N° Opposition</th>
                                   <th>Date  <span><i class="ti-arrows-vertical" (click)="toggleReverse()"></i></span></th>
                                   <th>Type de chéquier</th>
-                                  <th>N° opposition début</th>
-                                  <th>N° opposition fin</th>
+                                  <th>N° chèque début</th>
+                                  <th>N° chèque fin</th>
                                   <th>Montant</th>
                                   <th>Motif</th>
                                   <th>Statut</th>
@@ -46,16 +46,16 @@
                                   <td *ngIf="opp.oppchq_vstatus === 'Invalid'" style="color: red;">Non validé</td>
                                   <td *ngIf="opp.oppchq_vstatus === 'Pending'">En attente</td>
                                   <td *ngIf="selectedRowIndex !== i">
-                                    <button (click)="toggleConfirm(i)" class="btn btn-danger">
-                                       <span class="ti-close"></span>
+                                    <button (click)="toggleConfirm(i)" class="btn btn">
+                                       <span class="ti-trash"></span>
                                     </button>
                                  </td>
                                  <td *ngIf="selectedRowIndex === i">
                                     <button (click)="cancel()" class="btn btn-primary">
-                                       Annuler
+                                       <span class="ti ti-back-left"></span>
                                     </button><br/><br/>
-                                    <button (click)="confirmDelete(opp.oppchq_iid )" class="btn btn-danger">
-                                       Supprimer
+                                    <button (click)="confirmDelete(opp.oppchq_iid)" class="btn btn-danger">
+                                       <span class="ti ti-trash"></span>
                                     </button>
                                  </td>
                                </tr>

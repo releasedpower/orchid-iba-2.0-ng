@@ -32,7 +32,7 @@
 									<p class="form-control-label">Code secret</p>
 									<div class="md-input-wrapper">
 										<div class="input-group">
-											<input type="text" formControlName="clt_vmdp" #mdpField
+											<input type="password" formControlName="clt_vmdp" #mdpField
 											[class]="'form-control' + (loginForm.get('clt_vmdp')?.dirty ? (loginForm.get('clt_vmdp')?.invalid ? ' input-danger' : ' input-success') : '')"
 											placeholder="Entrer votre code secret" [readOnly]="false">
 											<div class="input-group-btn">

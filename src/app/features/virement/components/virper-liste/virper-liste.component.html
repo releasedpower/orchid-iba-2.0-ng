@@ -9,18 +9,6 @@
                 <h3>Virements permanents effectuées</h3>
              </div>
           </div>
-
-          <div class="row">
-             <div class="main-header">
-                <h5>Dernières transactions</h5>
-             </div>
-          </div>
-          <div class="row col-xl-3 col-md-6 col-sm-4">
-            <select class="form-control select-cpt" id="exampleSelect1">
-               <option>DAV Riana Rahajary</option> 
-           </select>
-          </div>
-
           <div class="row">
              <div class="col-xl-12 col-lg-12 col-sm-12"> 
                 <div class="card">
@@ -30,8 +18,8 @@
                             <thead>
                                <tr>
                                   <th>N°</th>
-                                  <th>Sender</th>
-                                  <th>Receiver</th>
+                                  <th>Emetteur</th>
+                                  <th>Destinataire</th>
                                   <th>Montant</th>
                                   <th>Description</th>
                                   <th>Frequence</th>
@@ -45,22 +33,17 @@
                             <tbody *ngIf="virementsPermanents">
                                 <tr *ngFor="let vp of virementsPermanents; let i = index">
                                     <td>{{vp.virper_iid}}</td>
-                                    <td>{{vp.sender_banque_vcode}} {{vp.sender_branche_vcode}} {{vp.sender_vnumcpt}} {{vp.sender_vclerib}}</td>
-                                    <td>{{vp.receiver_banque_vcode}} {{vp.receiver_branche_vcode}} {{vp.receiver_vnumcpt}} {{vp.receiver_vclerib}}</td>
+                                    <td><small>{{vp.sender_banque_vcode}} {{vp.sender_branche_vcode}} {{vp.sender_vnumcpt}} {{vp.sender_vclerib}}</small></td>
+                                    <td><small>{{vp.receiver_banque_vcode}} {{vp.receiver_branche_vcode}} {{vp.receiver_vnumcpt}} {{vp.receiver_vclerib}}</small></td>
                                     <td>{{vp.montant}}</td>
                                     <td>{{vp.virper_vdescript}}</td>
                                     <td>{{vp.frequency}}</td>
                                     <td *ngIf="selectedRowIndex !== i ">{{ vp.debut | dateToFrench }}</td>
                                     <td *ngIf="selectedRowIndex !== i ">{{ vp.fin | dateToFrench }}</td>
-                                    <td *ngIf="selectedRowIndex === i && isEdited">
-                                       <input type="date" class="form-control">
-                                    </td>
-                                    <td *ngIf="selectedRowIndex === i && isEdited">
-                                       <input type="date" class="form-control">
-                                    </td>
+                                    <td>1 Octobre 2023</td>
+                                    <td>1 Novembre 2023</td>
                                     <td>
-                                       <button class="btn btn-primary" (click)="onEdit(i)">Edit</button>
-                                       <button class="btn btn-danger" (click)="onDelete(vp.virper_iid)">Delete</button>
+                                       <button class="btn btn-danger" (click)="onDelete(vp.virper_iid)"><span class="ti ti-trash"></span></button>
                                     </td>
                                 </tr>
                                 <tr *ngIf="isLoading">
