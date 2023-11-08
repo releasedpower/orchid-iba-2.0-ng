@@ -21,8 +21,12 @@
                            <div class="col-md-3"><label class="form-control-label">Choisir le compte correspondant :</label></div>
                            <div class="col-md-4">                        
                               <select formControlName="demchq_cpt_iid" class="form-control form-control-sm">
-                                 <option value="">Séléctionner le compte à débiter</option>
-                                 <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">{{compte.cpt_vtype == 1 ? 'DAV' : 'EPR'}} | {{compte.banque_vcode}} {{compte.branche_vcode}} {{compte.cpt_vcode}} {{compte.cpt_vclerib}}</option>
+                                 <option value="">Séléctionner le compte correspondant</option>
+                                 <option [value]="compte.cpt_iid" *ngFor="let compte of comptes">
+                                    <ng-container *ngIf="compte.cpt_vtype == 1">
+                                       DAV | {{compte.banque_vcode}} {{compte.branche_vcode}} {{compte.cpt_vcode}} {{compte.cpt_vclerib}}
+                                    </ng-container>
+                                 </option>
                               </select>
                            </div>
                         </div>

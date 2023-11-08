@@ -49,8 +49,12 @@
                          </div>
                          <ng-container *ngIf="formData.type_virement === 'VirementPermanent'">
                            <div class="form-group row">
-                              <div class="col-md-2"><label for="InputNormal" class="form-control-label">Date d'execution<span style="color: red;">*</span> :</label></div>
+                              <div class="col-md-2"><label for="InputNormal" class="form-control-label">Début<span style="color: red;">*</span> :</label></div>
                               <div class="col-md-6">{{formData.debut}}</div>
+                           </div>
+                           <div class="form-group row">
+                              <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fin<span style="color: red;">*</span> :</label></div>
+                              <div class="col-md-6">{{formData.fin}}</div>
                            </div>
                            <div class="form-group row" *ngIf="formData.frequency">
                               <div class="col-md-2"><label for="InputNormal" class="form-control-label">Fréquence<span style="color: red;">*</span> :</label></div>

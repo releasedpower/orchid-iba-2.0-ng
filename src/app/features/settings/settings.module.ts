@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmailComponent } from './components/email/email.component';
 import { PasswordComponent } from './components/password/password.component';
 import { AddEmailComponent } from './components/add-email/add-email.component';
+import { TwoFaEmailComponent } from './components/two-fa-email/two-fa-email.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AddEmailComponent } from './components/add-email/add-email.component';
     SettingsComponent,
     EmailComponent,
     PasswordComponent,
-    AddEmailComponent
+    AddEmailComponent,
+    TwoFaEmailComponent
   ],
   imports: [
     CommonModule,

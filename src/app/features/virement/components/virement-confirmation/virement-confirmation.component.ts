@@ -38,7 +38,10 @@ export class VirementConfirmationComponent implements OnInit {
     }
     else if(this.formData.type_virement==='VirementPermanent'){
       this.virementService.insertVirementPermanent(this.formData).subscribe({
-        next: () => console.log('ok'),
+        next: (result) => {
+          console.log(result);
+
+        },
         complete: () =>{
           this.router.navigateByUrl('virement-permanent-liste');
         },

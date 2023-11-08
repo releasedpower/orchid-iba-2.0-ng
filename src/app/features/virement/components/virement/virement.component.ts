@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { BeneficiaireService } from 'src/app/features/beneficiaire/services/beneficiaire.service';
-import { Compte } from 'src/app/shared/interfaces/compte';
 import { CompteService } from 'src/app/shared/services/compte/compte.service';
 import { DataSharingService } from 'src/app/shared/services/data-sharing.service';
 import { VirementService } from '../../services/virement.service';
@@ -46,16 +45,14 @@ export class VirementComponent implements OnInit {
     trans_vmontant: new FormControl('',[Validators.required,Validators.pattern(/^-?\d+(\.\d+)?$/),Validators.min(10000),Validators.max(10000000)]),
     trans_vdescript: new FormControl('',[Validators.required]),
     frequence: new FormControl(''),
-    debut: new FormControl(''),
-    fin: new FormControl(''),
+    debut: new FormControl(),
+    fin: new FormControl(),
   });
 
   onSubmit(){
     if(this.virementForm.invalid){
       this.isNotFilled = true;
     }
-
-
     else{
       let data:any = {
         'type_virement':this.virementForm.get('type_virement')?.value,
@@ -77,32 +74,45 @@ export class VirementComponent implements OnInit {
       };
       if (this.virementForm.get('type_virement')?.value === 'VirementPermanent') {
         data.frequency = this.virementForm.get('frequence')?.value;
-
+        const debutDate = new Date(this.virementForm.get('fin')?.value);
+        const finDate = new Date(this.virementForm.get('debut')?.value);
+        const differenceInTime =  debutDate.getTime() - finDate.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+        
+        const frequence = this.virementForm.get('frequence')?.value;
+        if ((frequence === 'Bimensuel' || frequence === 'Mensuel') && differenceInDays < 60) {
+            console.log('Minimum 60 days required for bimensuel or mensuel.');
+        } 
+        else if (frequence === 'Trimestriel' && differenceInDays < 120) {
+            console.log('Minimum 120 days required for trimestriel.');
+        } 
       }
-      const cpt_iid = this.virementForm.get('cpt_iid')?.value;
-      const ben_iid = this.virementForm.get('ben_iid')?.value;
-  
-      if (cpt_iid && ben_iid) {
-      const senderInfo$ = this.virementService.getSenderInfoById(cpt_iid.toString());
-      const receiverInfo$ = this.virementService.getReceiverInfoById(ben_iid.toString());
-  
-      forkJoin([senderInfo$, receiverInfo$]).subscribe(
-        ([senderResult, receiverResult]) => {
-          data.sender_banque_vcode = senderResult.banque_vcode;
-          data.sender_branche_iid = senderResult.branche_iid;
-          data.sender_vnumcpt = senderResult.cpt_vcode;
-          data.sender_vclerib = senderResult.cpt_vclerib;
+        const cpt_iid = this.virementForm.get('cpt_iid')?.value;
+        const ben_iid = this.virementForm.get('ben_iid')?.value;
     
-          data.receiver_banque_vcode = receiverResult.banque_vcode;
-          data.receiver_branche_iid = receiverResult.branche_iid;
-          data.receiver_vnumcpt = receiverResult.ben_vnumcpt;
-          data.receiver_vclerib = receiverResult.ben_vclerib;
+        if (cpt_iid && ben_iid) {
+        const senderInfo$ = this.virementService.getSenderInfoById(cpt_iid.toString());
+        const receiverInfo$ = this.virementService.getReceiverInfoById(ben_iid.toString());
     
-          this.dataSharingService.setFormData(data);
-          this.router.navigateByUrl('virement-confirmation');
-        },
-        error => console.log(error)
-      );}}
+        forkJoin([senderInfo$, receiverInfo$]).subscribe(
+          ([senderResult, receiverResult]) => {
+            data.sender_banque_vcode = senderResult.banque_vcode;
+            data.sender_branche_iid = senderResult.branche_iid;
+            data.sender_vnumcpt = senderResult.cpt_vcode;
+            data.sender_vclerib = senderResult.cpt_vclerib;
+      
+            data.receiver_banque_vcode = receiverResult.banque_vcode;
+            data.receiver_branche_iid = receiverResult.branche_iid;
+            data.receiver_vnumcpt = receiverResult.ben_vnumcpt;
+            data.receiver_vclerib = receiverResult.ben_vclerib;
+      
+            this.dataSharingService.setFormData(data);
+            this.router.navigateByUrl('virement-confirmation');
+          },
+          error => console.log(error)
+        );
+      }
+    }
   }
   getComptes(){
      const subscription = this.compteService.getComptes().subscribe({

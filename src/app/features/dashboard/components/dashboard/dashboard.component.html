@@ -43,7 +43,7 @@
                      <span *ngSwitchCase="1" class="label label-warning">Dépot à vue</span>
                      <span *ngSwitchCase="2" class="label label-primary">Epargne</span>
                   </ng-container><br />
-                  <!-- <small>Dernière mise à jour: {{compte.updated_at}}</small> -->
+                  <small>Dernière mise à jour: {{compte.updated_at}}</small>
                   <div class="side-box">
                      <i [ngClass]="{'': compte.cpt_vtype === 1, 'text-primary-color': compte.cpt_vtype === 2}"
                         [class.text-warning-color]="compte.cpt_vtype === 1"></i>
@@ -53,7 +53,9 @@
             <div class="col-lg-3 col-md-6">
                <div class="card solde-card">
                   <span>Revenu du mois</span>
-                  <h2 class="dashboard-total-products"> <span>259 000<small>Ar</small></span></h2>
+                  <h2 class="dashboard-total-products" *ngIf="isLoading"><span>Chargement...</span></h2>
+                  <h2 class="dashboard-total-products" *ngIf="!isLoading"> <span>{{transform(revenusDuMois)}}
+                        <small>Ar</small></span></h2>
                   <span class="label label-success">Détails</span>
                   <div class="side-box">
                      <i class="ti-stats-up text-success-color"></i>
@@ -63,7 +65,9 @@
             <div class="col-lg-3 col-md-6">
                <div class="card solde-card">
                   <span>Dépense du mois</span>
-                  <h2 class="dashboard-total-products"> <span>-354 141<small>Ar</small></span></h2>
+                  <h2 class="dashboard-total-products" *ngIf="isLoading"><span>Chargement...</span></h2>
+                  <h2 class="dashboard-total-products" *ngIf="!isLoading"><span>{{transform(depensesDuMois)}}
+                        <small>Ar</small></span></h2>
                   <span class="label label-danger">Détails</span>
                   <div class="side-box">
                      <i class="ti-stats-down text-danger-color"></i>
@@ -81,6 +85,7 @@
                      <h5 class="card-header-text">Graphique</h5>
                   </div>
                   <div class="card-block">
+                     <h2 class="dashboard-total-products" *ngIf="isLoading"><span>Chargement...</span></h2>
                      <canvas id="canvas">{{ chart }}</canvas>
                   </div>
                </div>
@@ -91,11 +96,16 @@
                <h5>Dernières transactions</h5>
             </div>
          </div>
-         <div class="row col-xl-5 col-md-7 col-sm-12" style="margin-bottom: 20px;">
-            <select class="form-control select-cpt" id="exampleSelect1">
-               <option *ngIf="comptes.length>0">{{comptes[0].cpt_vtype == 1 ? 'DAV' : 'EPR'}} |
-                  {{comptes[0].banque_vcode}} {{comptes[0].branche_vcode}} {{comptes[0].cpt_vcode}}
-                  {{comptes[0].cpt_vclerib}}</option>
+         <div class="row col-xl-5 col-md-5 col-sm-12" style="margin-bottom: 20px;">
+            <select class="form-control select-cpt" id="exampleSelect1" [(ngModel)]="selectedCompte"
+               (change)="onSelectChange($event)">
+               <option *ngFor="let compte of comptes" [value]="compte.cpt_vcode">
+                  <ng-container *ngIf="comptes.length>0">
+                     {{compte.cpt_vtype == 1 ? 'DAV' : 'EPR'}} |
+                     {{compte.banque_vcode}} {{compte.branche_vcode}} {{compte.cpt_vcode}}
+                     {{compte.cpt_vclerib}}
+                  </ng-container>
+               </option>
             </select>
          </div>
          <div class="row">
@@ -116,7 +126,7 @@
                            </thead>
                            <tbody>
                               <tr *ngFor="let trans of transRecentes">
-                                 <td>{{trans.trans_vnum}}</td>
+                                 <td>{{trans.trans_iid}}</td>
                                  <td>{{trans.trans_ddate | dateToFrench}}</td>
                                  <td>{{trans.typetrans_vlibelle}}</td>
                                  <td [style]="trans.trans_vmontant<0? 'color:#971b1b' : 'none' ">

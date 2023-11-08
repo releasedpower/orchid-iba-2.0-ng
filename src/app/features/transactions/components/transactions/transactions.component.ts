@@ -19,9 +19,10 @@ export class TransactionsComponent implements OnInit {
   comptes:any = [];
   transactions:any[] = [];
   filteredTransactions:any = [];
-  currentPage = 1;
+  currentPage: number = 1;
   itemsPerPage = 15; 
-
+  isLoading = false;
+  selectedCompte:any;
   betweenDatesForm = new FormGroup({
     debut: new FormControl('',[Validators.required]),
     fin: new FormControl('',[Validators.required])
@@ -42,16 +43,16 @@ export class TransactionsComponent implements OnInit {
       this.filteredTransactions = this.transactions.filter((trans: any) => trans.typetrans_vlibelle === this.selectedTypeFilter);
     }
   }
-  // END FILTRES
-
   ngOnInit(): void {
     this.getComptes();
+    console.log(this.currentPage)
   }
   getComptes(){
     const subscription = this.compteService.getComptes().subscribe({
       next:(result)=>{
         this.comptes=result;
-        this.getTransactions(this.comptes[0].cpt_vcode);
+        this.selectedCompte=this.comptes[0].cpt_vcode;
+        this.getTransactions(this.selectedCompte,this.currentPage);
       },
       error:(error)=>{
         console.log(error);
@@ -59,23 +60,36 @@ export class TransactionsComponent implements OnInit {
     });
     this.subscriptions.push(subscription);
   }
-  getTransactions(cpt_vcode:string){
-    const subscription = this.transactionService.getTransactions(cpt_vcode).subscribe({
-      next:(result)=>{
-        this.transactions=result;
-        this.filteredTransactions = [...this.transactions]; //manao copy an'i transactions mankany am filtered
+  getTransactions(cpt_vcode: string, pageNumber: number): void {
+    this.isLoading = true;
+    const subscription = this.transactionService.getTransactions(cpt_vcode, pageNumber).subscribe({
+      next: (result) => {
+        this.transactions = result;
+        this.filteredTransactions = [...this.transactions];
+        this.isLoading = false; 
       },
-      error:(error)=>{
+      error: (error) => {
         console.log(error);
-      }
+        this.isLoading = false;
+      },
     });
     this.subscriptions.push(subscription);
-
+  }
+  
+  loadNextPage(): void {
+    this.currentPage++; 
+    this.getTransactions(this.comptes[0].cpt_vcode,this.currentPage); 
+    console.log(this.currentPage)
+  }
+  loadPreviousPage(): void {
+    this.currentPage--; 
+    this.getTransactions(this.comptes[0].cpt_vcode,this.currentPage);
+    console.log(this.currentPage)
   }
   getTransactionsDate(){
     if(this.comptes){
       const subscription = this.transactionService.getTransactionsDate(
-        this.comptes[0].cpt_vcode,
+        this.selectedCompte,
         this.betweenDatesForm.get('debut')?.value,
         this.betweenDatesForm.get('fin')?.value).subscribe({
         next:(result)=>{
@@ -90,6 +104,24 @@ export class TransactionsComponent implements OnInit {
       this.subscriptions.push(subscription);
     }
   }
+  pdfTransactions() {
+    const cpt_vcode = this.selectedCompte;
+    const debut = this.betweenDatesForm.get('debut')?.value;
+    const fin = this.betweenDatesForm.get('fin')?.value;
+  
+    this.transactionService.getTransactionsDatePDF(cpt_vcode, debut, fin).subscribe(
+      (data: Blob) => {
+        const downloadURL = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = 'transactions.pdf';
+        link.click();
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
   transform(value: number): string {
     let roundedValue = Math.round(value * 1) / 1; // Round to the nearest 10th
     let strValue = roundedValue.toString();
@@ -102,61 +134,8 @@ export class TransactionsComponent implements OnInit {
     }
     return result;
   }
-  generateDynamicPDF() {
-    const pdf = new jspdf.jsPDF();
-    const totalPagesExp = "{total_pages_count_string}";
-  
-    const pageWidth = pdf.internal.pageSize.width;
-    const pageHeight = pdf.internal.pageSize.height;
-    const margins = {
-      top: 10,
-      bottom: 10,
-      left: 10,
-      right: 10,
-    };
-  
-    pdf.setFontSize(12);
-    pdf.text("Transactions Report", margins.left, 20);
-  
-    let startY = 40;
-  
-    const pageContent = (data: any) => {
-      // This is the content of each page
-      pdf.setFontSize(10);
-      pdf.text(data, margins.left, startY);
-    };
-  
-    let transactionsPerPage = 20; // Adjust as needed
-    let currentPage = 1;
-    let dataIndex = 0;
-  
-    const generatePage = () => {
-      // Generate a page with transactions
-      pdf.addPage();
-      pageContent(this.filteredTransactions.slice(dataIndex, dataIndex + transactionsPerPage).map((transaction:any) => {
-        return `${transaction.trans_vnum} | ${transaction.trans_ddate } | ${transaction.typetrans_vlibelle} | ${transaction.trans_vmontant} Ar | ${transaction.trans_vdescript} | ${transaction.trans_vstatus}`;
-      }).join('\n'));
-      dataIndex += transactionsPerPage;
-    };
-  
-    while (dataIndex < this.filteredTransactions.length) {
-      // Continue adding pages until all data is processed
-      generatePage();
-      currentPage++;
-    }
-  
-    // Add total page count
-    for (let i = 1; i < currentPage; i++) {
-      pdf.setPage(i);
-      pdf.text(
-        `Page ${i} of ${currentPage - 1}`,
-        pageWidth - margins.right - 50,
-        pageHeight - margins.bottom + 10
-      );
-    }
-  
-    // Save the PDF with a dynamic name
-    const pdfName = `transactions_report_${new Date().toISOString()}.pdf`;
-    pdf.save(pdfName);
-  }
+  onSelectChange(event: any) {
+    this.selectedCompte = event.target.value; // Update selectedCompte on change
+    this.getTransactions(this.selectedCompte,this.currentPage);
+}
 }

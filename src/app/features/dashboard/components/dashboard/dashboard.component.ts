@@ -4,6 +4,7 @@ import { CompteService } from 'src/app/shared/services/compte/compte.service';
 import { Subscription } from 'rxjs';
 import { TransactionService } from 'src/app/features/transactions/services/transaction.service';
 import { ClientService } from 'src/app/shared/services/client.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,37 +17,29 @@ export class DashboardComponent implements OnInit {
     private clientService: ClientService) { }
   comptes: any[] = [];
   transRecentes: any[] = [];
+  depensesDuMois: any;
+  depenses5Mois: any[] = [];
+  revenus5Mois: any[] = [];
+  revenusDuMois: any;
   isEmailWarningVisible = false;
   isLoading = true;
   isHidden = true;
+  selectedCompte:any;
+
   chart:any = [];
-  data:any={
-    labels: ['Juillet','Août', 'Septembre', 'Octobre'],
-    datasets: [
-      { 
-        data: [1460000, 1763000, 1600000, 259000],
-        label:'Revenus',
-        borderColor: "#1d7808",
-        fill: false
-      },
-      { 
-        data: [1240000,1231300, 851482, 354141],
-        label:'Dépenses',
-        borderColor: "#fc0303",
-        fill: false
-      }
-    ]
-  };
+  months:any = [];
+  expenses:any = [];
+  revenus:any = [];
+  chartData:any = {};
 
   ngOnInit(): void {
     this.getComptes();
     this.checkEmail();
-    this.chartShow();
   }
   chartShow() {
     this.chart = new Chart('canvas', {
       type: 'line',
-      data: this.data,
+      data: this.chartData,
       options: {
         responsive: true,
         plugins: {
@@ -68,9 +61,16 @@ export class DashboardComponent implements OnInit {
     const subscription = this.compteService.getComptes().subscribe({
       next: (result) => {
         this.comptes = result;
-        this.getTransRecentes();
+        this.updateSolde();
+        this.selectedCompte = this.comptes[0].cpt_vcode;
+        this.getTransRecentes(this.selectedCompte);
+        this.getDepensesDuMois();
+        this.getRevenusDuMois();
+        this.getDepensesAndRevenus5Mois(this.selectedCompte);
       },
-      complete: () => this.isLoading = false,
+      complete: () => {
+        this.isLoading = false
+      },
       error: (error) => {
         console.log(error);
       }
@@ -96,10 +96,81 @@ export class DashboardComponent implements OnInit {
     });
     this.subscriptions.push(subscription);
   }
-  getTransRecentes() {
-    const subscription = this.transactionService.getTransRecentes((this.comptes[0].cpt_vcode).toString()).subscribe({
+  getTransRecentes(cpt_vcode:any) {
+    const subscription = this.transactionService.getTransRecentes((cpt_vcode).toString()).subscribe({
       next: (result) => {
         this.transRecentes = result;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    this.subscriptions.push(subscription);
+  }
+
+  getDepensesAndRevenus5Mois(cpt_vcode:any) {
+    const depenses$ = this.transactionService.getDepenses5Mois((cpt_vcode).toString());
+    const revenus$ = this.transactionService.getRevenus5Mois((cpt_vcode).toString());
+  
+    forkJoin([depenses$, revenus$]).subscribe({
+      next: ([depensesResult, revenusResult]) => {
+        this.depenses5Mois = depensesResult;
+        this.revenus5Mois = revenusResult;
+        
+        this.months = this.depenses5Mois.map((item) => item.month);
+        this.expenses = this.depenses5Mois.map((item) => item.totalExpenses * -1);
+        this.revenus = this.revenus5Mois.map((item) => item.totalIncome);
+  
+        this.chartData = {
+          labels: this.months.reverse(),
+          datasets: [
+            { 
+              data: this.revenus.reverse(), // Your sample data
+              label: 'Revenus',
+              borderColor: '#1d7808',
+              fill: false,
+            },
+            { 
+              data: this.expenses.reverse(),
+              label: 'Dépenses',
+              borderColor: '#fc0303',
+              fill: false,
+            },
+          ],
+        };
+        this.chartShow();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+  
+  updateSolde() {
+    const subscription = this.transactionService.updateSolde((this.comptes[0].cpt_vcode).toString()).subscribe({
+      next: () => {
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    this.subscriptions.push(subscription);
+  }
+  getDepensesDuMois() {
+    const subscription = this.transactionService.getDepensesDuMois((this.comptes[0].cpt_vcode).toString()).subscribe({
+      next: (result) => {
+        this.depensesDuMois = result;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    this.subscriptions.push(subscription);
+  }
+  getRevenusDuMois() {
+    const subscription = this.transactionService.getRevenusDuMois((this.comptes[0].cpt_vcode).toString()).subscribe({
+      next: (result) => {
+        this.revenusDuMois = result;
       },
       error: (error) => {
         console.log(error);
@@ -119,4 +190,9 @@ export class DashboardComponent implements OnInit {
     }
     return result;
   }
+  onSelectChange(event: any) {
+    this.selectedCompte = event.target.value; // Update selectedCompte on change
+    this.getDepensesAndRevenus5Mois(this.selectedCompte);
+    this.getTransRecentes(this.selectedCompte);
+}
 }

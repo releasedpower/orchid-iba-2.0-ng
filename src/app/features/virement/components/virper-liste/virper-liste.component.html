@@ -40,8 +40,8 @@
                                     <td>{{vp.frequency}}</td>
                                     <td *ngIf="selectedRowIndex !== i ">{{ vp.debut | dateToFrench }}</td>
                                     <td *ngIf="selectedRowIndex !== i ">{{ vp.fin | dateToFrench }}</td>
-                                    <td>1 Octobre 2023</td>
-                                    <td>1 Novembre 2023</td>
+                                    <td>{{vp.last_execution_date | dateToFrench}}</td>
+                                    <td>{{vp.next_execution_date | dateToFrench}}</td>
                                     <td>
                                        <button class="btn btn-danger" (click)="onDelete(vp.virper_iid)"><span class="ti ti-trash"></span></button>
                                     </td>
