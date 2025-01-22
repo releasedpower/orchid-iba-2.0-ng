@@ -1,4 +1,4 @@
-# Angular
+# Internet Banking app
 The interface of an internet banking application built with angular.
 
 # Angular
