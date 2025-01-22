@@ -1,4 +1,7 @@
 # Angular
+The interface of an internet banking application built with angular.
+
+# Angular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.5.
 
